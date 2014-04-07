@@ -1,6 +1,6 @@
 //
-//  i2048Tests.m
-//  i2048Tests
+//  LMGameTests.m
+//  i2048
 //
 //  Created by Alex Leffelman on 4/6/14.
 //  Copyright (c) 2014 Alex Leffelman. All rights reserved.
@@ -8,11 +8,11 @@
 
 #import <XCTest/XCTest.h>
 
-@interface i2048Tests : XCTestCase
+@interface LMGameTests : XCTestCase
 
 @end
 
-@implementation i2048Tests
+@implementation LMGameTests
 
 - (void)setUp
 {
@@ -24,11 +24,6 @@
 {
     // Put teardown code here. This method is called after the invocation of each test method in the class.
     [super tearDown];
-}
-
-- (void)testExample
-{
-    XCTFail(@"No implementation for \"%s\"", __PRETTY_FUNCTION__);
 }
 
 @end

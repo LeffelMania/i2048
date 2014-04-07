@@ -1,0 +1,41 @@
+#!/bin/sh
+#
+#   Copyright 2012 Jonathan M. Reid. See LICENSE.txt
+#   Created by: Jon Reid, http://qualitycoding.org/
+#   Source: https://github.com/jonreid/XcodeCoverage
+#
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+source ${DIR}/env.sh
+
+REPORT_DIR=$DIR/coverage-report
+REPORT_NAME=index.html
+GCOVR=$DIR/gcovr
+OBJECT_DIR=$OBJECT_FILE_DIR_normal/$CURRENT_ARCH
+
+remove_old_report()
+{
+	if [ -d "$REPORT_DIR" ]; then
+  		rm -r "$REPORT_DIR"
+	fi
+
+	mkdir "$REPORT_DIR"
+}
+
+generate_report()
+{
+	pushd $OBJECT_DIR
+
+		gcovr --html --html-details -f ".*i2048.*" -o "$REPORT_DIR/$REPORT_NAME"
+
+	popd
+}
+
+open_report()
+{
+	open "$REPORT_DIR/$REPORT_NAME"
+}
+
+remove_old_report
+generate_report
+open_report
