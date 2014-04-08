@@ -35,12 +35,12 @@
         
         if (valueArray)
         {
-            NSAssert([valueArray count] == (size * size), @"Expected %u items in provided values array, got %u", (size * size), [valueArray count]);
+            NSAssert([valueArray count] == [self count], @"Expected %u items in provided values array, got %u", [self count], [valueArray count]);
             
             __block NSUInteger index = 0;
             [self iterateBoardWithBlock:^BOOL(LMBoardItem *item) {
                 
-                item.level = [valueArray[index] unsignedIntegerValue];
+                item.level = [valueArray[index] integerValue];
                 index++;
                 
                 return NO;
@@ -62,66 +62,6 @@
     return self.values[row][column];
 }
 
-- (void)iterateBoardWithBlock:(LMBoardIterationBlock)block
-{
-    if (!block)
-    {
-        return;
-    }
-    
-    for (NSUInteger row = 0; row < self.size; row++)
-    {
-        for (NSUInteger col = 0; col < self.size; col++)
-        {
-            LMBoardItem *item = [self itemAtRow:row column:col];
-            
-            BOOL stop = block(item);
-            if (stop)
-            {
-                return;
-            }
-        }
-    }
-}
-
-- (void)iterateRow:(NSUInteger)row withBlock:(LMBoardIterationBlock)block
-{
-    if (!block || row >= self.size)
-    {
-        return;
-    }
-    
-    for (NSUInteger col = 0; col < self.size; col++)
-    {
-        LMBoardItem *item = [self itemAtRow:row column:col];
-        
-        BOOL stop = block(item);
-        if (stop)
-        {
-            return;
-        }
-    }
-}
-
-- (void)iterateColumn:(NSUInteger)col withBlock:(LMBoardIterationBlock)block
-{
-    if (!block || col >= self.size)
-    {
-        return;
-    }
-    
-    for (NSUInteger row = 0; row < self.size; row++)
-    {
-        LMBoardItem *item = [self itemAtRow:row column:col];
-        
-        BOOL stop = block(item);
-        if (stop)
-        {
-            return;
-        }
-    }
-}
-
 - (BOOL)isFull
 {
     __block BOOL result = YES;
@@ -140,52 +80,387 @@
     return result;
 }
 
-- (BOOL)isRowFull:(NSUInteger)row
+- (BOOL)hasMatches
 {
-    __block BOOL result = YES;
+    __block BOOL canReturnYes = NO;
     
-    [self iterateRow:row withBlock:^BOOL(LMBoardItem *item) {
+    // Left/Right Matches
+    for (NSUInteger row = 0; row < self.size; row++)
+    {
+        __block LMBoardItemLevel prevLevel = LMBoardItemEmpty;
+        [self iterateRow:row withBlock:^BOOL(LMBoardItem *item) {
+            
+            if (prevLevel != LMBoardItemEmpty && item.level == prevLevel)
+            {
+                canReturnYes = YES;
+                return YES;
+            }
+            prevLevel = item.level;
+            
+            return NO;
+        }];
         
-        if ([item isEmpty])
+        if (canReturnYes)
         {
-            result = NO;
             return YES;
         }
-        
-        return NO;
-    }];
+    }
     
-    return result;
-}
-
-- (BOOL)isColumnFull:(NSUInteger)col
-{
-    __block BOOL result = YES;
-    
-    [self iterateColumn:col withBlock:^BOOL(LMBoardItem *item) {
+    // Up/Down Matches
+    for (NSUInteger col = 0; col < self.size; col++)
+    {
+        __block LMBoardItemLevel prevLevel = LMBoardItemEmpty;
+        [self iterateColumn:col withBlock:^BOOL(LMBoardItem *item) {
+            
+            if (prevLevel != LMBoardItemEmpty && item.level == prevLevel)
+            {
+                canReturnYes = YES;
+                return YES;
+            }
+            prevLevel = item.level;
+            
+            return NO;
+        }];
         
-        if ([item isEmpty])
+        if (canReturnYes)
         {
-            result = NO;
             return YES;
         }
-        
-        return NO;
-    }];
+    }
     
-    return result;
+    return NO;
 }
 
-- (NSString *)description
+- (BOOL)canShiftUp
 {
-    NSMutableString *boardString = [NSMutableString string];
+    for (NSUInteger col = 0; col < self.size; col++)
+    {
+        __block BOOL wasEmpty = NO;
+        __block BOOL canReturnYes = NO;
+        
+        [self iterateColumn:col withBlock:^BOOL(LMBoardItem *item) {
+            
+            BOOL isEmpty = [item isEmpty];
+            if (wasEmpty && !isEmpty)
+            {
+                canReturnYes = YES;
+                return YES;
+            }
+            
+            wasEmpty = isEmpty;
+            
+            return NO;
+        }];
+        
+        if (canReturnYes)
+        {
+            return YES;
+        }
+    }
     
-    [self iterateBoardWithBlock:^BOOL(LMBoardItem *item) {
-        [boardString appendFormat:@"%u ", item.level];
-        return NO;
-    }];
+    return NO;
+}
+
+- (BOOL)canShiftDown
+{
+    for (NSUInteger col = 0; col < self.size; col++)
+    {
+        __block BOOL wasEmpty = YES;
+        __block BOOL canReturnYes = NO;
+        
+        [self iterateColumn:col withBlock:^BOOL(LMBoardItem *item) {
+            
+            BOOL isEmpty = [item isEmpty];
+            if (!wasEmpty && isEmpty)
+            {
+                canReturnYes = YES;
+                return YES;
+            }
+            
+            wasEmpty = isEmpty;
+            
+            return NO;
+        }];
+        
+        if (canReturnYes)
+        {
+            return YES;
+        }
+    }
     
-    return [NSString stringWithFormat:@"LMBoard: @@[ %@]", boardString];
+    return NO;
+}
+
+- (BOOL)canShiftLeft
+{
+    for (NSUInteger row = 0; row < self.size; row++)
+    {
+        __block BOOL wasEmpty = NO;
+        __block BOOL canReturnYes = NO;
+        
+        [self iterateRow:row withBlock:^BOOL(LMBoardItem *item) {
+            
+            BOOL isEmpty = [item isEmpty];
+            if (wasEmpty && !isEmpty)
+            {
+                canReturnYes = YES;
+                return YES;
+            }
+            
+            wasEmpty = isEmpty;
+            
+            return NO;
+        }];
+        
+        if (canReturnYes)
+        {
+            return YES;
+        }
+    }
+    
+    return NO;
+}
+
+- (BOOL)canShiftRight
+{
+    for (NSUInteger row = 0; row < self.size; row++)
+    {
+        __block BOOL wasEmpty = YES;
+        __block BOOL canReturnYes = NO;
+        
+        [self iterateRow:row withBlock:^BOOL(LMBoardItem *item) {
+            
+            BOOL isEmpty = [item isEmpty];
+            if (!wasEmpty && isEmpty)
+            {
+                canReturnYes = YES;
+                return YES;
+            }
+            
+            wasEmpty = isEmpty;
+            
+            return NO;
+        }];
+        
+        if (canReturnYes)
+        {
+            return YES;
+        }
+    }
+    
+    return NO;
+}
+
+- (void)shiftUp
+{
+    for (NSUInteger col = 0; col < self.size; col++)
+    {
+        // Consolidate Matches
+        __block LMBoardItem *toMatch = nil;
+        [self iterateColumn:col withBlock:^BOOL(LMBoardItem *item) {
+            
+            if (!toMatch && ![item isEmpty])
+            {
+                toMatch = item;
+                return NO;
+            }
+            
+            if ([item matches:toMatch])
+            {
+                [toMatch advance];
+                [item clear];
+                
+                toMatch = nil;
+            }
+            
+            return NO;
+        }];
+        
+        // Shift Up
+        __block LMBoardItem *toFill = nil;
+        [self iterateColumn:col withBlock:^BOOL(LMBoardItem *item) {
+            
+            if (!toFill)
+            {
+                if ([item isEmpty])
+                {
+                    toFill = item;
+                }
+                return NO;
+            }
+            
+            if (![item isEmpty])
+            {
+                toFill.level = item.level;
+                [item clear];
+                
+                toFill = item;
+            }
+            
+            return NO;
+        }];
+    }
+    
+    [self insertNewItem];
+}
+
+- (void)shiftDown
+{
+    for (NSUInteger col = 0; col < self.size; col++)
+    {
+        // Consolidate Matches
+        LMBoardItem *toMatch = nil;
+        for (NSInteger row = self.size - 1; row >= 0; row--)
+        {
+            LMBoardItem *item = [self itemAtRow:row column:col];
+            
+            if (!toMatch && ![item isEmpty])
+            {
+                toMatch = item;
+                continue;
+            }
+            
+            if ([item matches:toMatch])
+            {
+                [toMatch advance];
+                [item clear];
+                
+                toMatch = nil;
+            }
+        }
+        
+        // Shift Down
+        LMBoardItem *toFill = nil;
+        for (NSInteger row = self.size - 1; row >= 0; row--)
+        {
+            LMBoardItem *item = [self itemAtRow:row column:col];
+            
+            if (!toFill)
+            {
+                if ([item isEmpty])
+                {
+                    toFill = item;
+                }
+                continue;
+            }
+            
+            if (![item isEmpty])
+            {
+                toFill.level = item.level;
+                [item clear];
+                
+                toFill = item;
+            }
+        }
+    }
+    
+    [self insertNewItem];
+}
+
+- (void)shiftLeft
+{
+    for (NSUInteger row = 0; row < self.size; row++)
+    {
+        // Consolidate Matches
+        LMBoardItem *toMatch = nil;
+        for (NSInteger col = self.size - 1; col >= 0; col--)
+        {
+            LMBoardItem *item = [self itemAtRow:row column:col];
+            
+            if (!toMatch && ![item isEmpty])
+            {
+                toMatch = item;
+                continue;
+            }
+            
+            if ([item matches:toMatch])
+            {
+                [toMatch advance];
+                [item clear];
+                
+                toMatch = nil;
+            }
+        }
+        
+        // Shift Left
+        LMBoardItem *toFill = nil;
+        for (NSInteger col = 0; col < self.size; col++)
+        {
+            LMBoardItem *item = [self itemAtRow:row column:col];
+            
+            if (!toFill)
+            {
+                if ([item isEmpty])
+                {
+                    toFill = item;
+                }
+                continue;
+            }
+            
+            if (![item isEmpty])
+            {
+                toFill.level = item.level;
+                [item clear];
+                
+                toFill = item;
+            }
+        }
+    }
+    
+    [self insertNewItem];
+}
+
+- (void)shiftRight
+{
+    for (NSUInteger row = 0; row < self.size; row++)
+    {
+        // Consolidate Matches
+        LMBoardItem *toMatch = nil;
+        for (NSInteger col = 0; col < self.size; col++)
+        {
+            LMBoardItem *item = [self itemAtRow:row column:col];
+            
+            if (!toMatch && ![item isEmpty])
+            {
+                toMatch = item;
+                continue;
+            }
+            
+            if ([item matches:toMatch])
+            {
+                [toMatch advance];
+                [item clear];
+                
+                toMatch = nil;
+            }
+        }
+        
+        // Shift Left
+        LMBoardItem *toFill = nil;
+        for (NSInteger col = self.size - 1; col >= 0; col--)
+        {
+            LMBoardItem *item = [self itemAtRow:row column:col];
+            
+            if (!toFill)
+            {
+                if ([item isEmpty])
+                {
+                    toFill = item;
+                }
+                continue;
+            }
+            
+            if (![item isEmpty])
+            {
+                toFill.level = item.level;
+                [item clear];
+                
+                toFill = item;
+            }
+        }
+    }
+    
+    [self insertNewItem];
 }
 
 #pragma mark - Private Utility
@@ -207,6 +482,95 @@
     }
     
     return values;
+}
+
+- (void)iterateBoardWithBlock:(LMBoardIterationBlock)block
+{
+    for (NSUInteger row = 0; row < self.size; row++)
+    {
+        for (NSUInteger col = 0; col < self.size; col++)
+        {
+            LMBoardItem *item = [self itemAtRow:row column:col];
+            
+            BOOL stop = block(item);
+            if (stop)
+            {
+                return;
+            }
+        }
+    }
+}
+
+- (void)iterateRow:(NSUInteger)row withBlock:(LMBoardIterationBlock)block
+{
+    for (NSUInteger col = 0; col < self.size; col++)
+    {
+        LMBoardItem *item = [self itemAtRow:row column:col];
+        
+        BOOL stop = block(item);
+        if (stop)
+        {
+            return;
+        }
+    }
+}
+
+- (void)iterateColumn:(NSUInteger)col withBlock:(LMBoardIterationBlock)block
+{
+    for (NSUInteger row = 0; row < self.size; row++)
+    {
+        LMBoardItem *item = [self itemAtRow:row column:col];
+        
+        BOOL stop = block(item);
+        if (stop)
+        {
+            return;
+        }
+    }
+}
+
+- (NSUInteger)count
+{
+    return (self.size * self.size);
+}
+
+- (void)insertNewItem
+{
+    if ([self isFull])
+    {
+        return;
+    }
+    
+    NSUInteger start = arc4random() % [self count];
+    
+    NSUInteger index = start;
+    do
+    {
+        NSUInteger row = index / self.size;
+        NSUInteger col = index % self.size;
+        
+        LMBoardItem *item = [self itemAtRow:row column:col];
+        if ([item isEmpty])
+        {
+            [item advance];
+            return;
+        }
+        
+        index = (index + 1) % [self count];
+    }
+    while (index != start);
+}
+
+- (NSString *)description
+{
+    NSMutableString *boardString = [NSMutableString string];
+    
+    [self iterateBoardWithBlock:^BOOL(LMBoardItem *item) {
+        [boardString appendFormat:@"%u ", item.level];
+        return NO;
+    }];
+    
+    return [NSString stringWithFormat:@"LMBoard: @[ %@]", boardString];
 }
 
 @end

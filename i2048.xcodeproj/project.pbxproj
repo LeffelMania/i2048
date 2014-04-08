@@ -26,6 +26,7 @@
 		AEBA4B9C18F21F67004E1FE0 /* LMBoardTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AEBA4B9B18F21F67004E1FE0 /* LMBoardTests.m */; };
 		AEBA4B9E18F224ED004E1FE0 /* LMGameTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AEBA4B9D18F224ED004E1FE0 /* LMGameTests.m */; };
 		AEBA4BA118F24215004E1FE0 /* LMBoardItemTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AEBA4BA018F24215004E1FE0 /* LMBoardItemTests.m */; };
+		AEBA4BC218F25114004E1FE0 /* libOCMock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AEBA4BBA18F25114004E1FE0 /* libOCMock.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -66,6 +67,13 @@
 		AEBA4B9B18F21F67004E1FE0 /* LMBoardTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMBoardTests.m; sourceTree = "<group>"; };
 		AEBA4B9D18F224ED004E1FE0 /* LMGameTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMGameTests.m; sourceTree = "<group>"; };
 		AEBA4BA018F24215004E1FE0 /* LMBoardItemTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMBoardItemTests.m; sourceTree = "<group>"; };
+		AEBA4BBA18F25114004E1FE0 /* libOCMock.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libOCMock.a; sourceTree = "<group>"; };
+		AEBA4BBC18F25114004E1FE0 /* NSNotificationCenter+OCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSNotificationCenter+OCMAdditions.h"; sourceTree = "<group>"; };
+		AEBA4BBD18F25114004E1FE0 /* OCMArg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMArg.h; sourceTree = "<group>"; };
+		AEBA4BBE18F25114004E1FE0 /* OCMConstraint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMConstraint.h; sourceTree = "<group>"; };
+		AEBA4BBF18F25114004E1FE0 /* OCMock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMock.h; sourceTree = "<group>"; };
+		AEBA4BC018F25114004E1FE0 /* OCMockObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMockObject.h; sourceTree = "<group>"; };
+		AEBA4BC118F25114004E1FE0 /* OCMockRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMockRecorder.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,6 +92,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AEBA4B5E18F20FA8004E1FE0 /* XCTest.framework in Frameworks */,
+				AEBA4BC218F25114004E1FE0 /* libOCMock.a in Frameworks */,
 				AEBA4B6018F20FA8004E1FE0 /* UIKit.framework in Frameworks */,
 				AEBA4B5F18F20FA8004E1FE0 /* Foundation.framework in Frameworks */,
 			);
@@ -126,6 +135,7 @@
 			isa = PBXGroup;
 			children = (
 				AEBA4B9A18F21F56004E1FE0 /* Data */,
+				AEBA4BB918F25114004E1FE0 /* External */,
 				AEBA4B6418F20FA8004E1FE0 /* Supporting Files */,
 			);
 			path = i2048Tests;
@@ -238,11 +248,33 @@
 		AEBA4B9A18F21F56004E1FE0 /* Data */ = {
 			isa = PBXGroup;
 			children = (
-				AEBA4B9B18F21F67004E1FE0 /* LMBoardTests.m */,
 				AEBA4BA018F24215004E1FE0 /* LMBoardItemTests.m */,
+				AEBA4B9B18F21F67004E1FE0 /* LMBoardTests.m */,
 				AEBA4B9D18F224ED004E1FE0 /* LMGameTests.m */,
 			);
 			path = Data;
+			sourceTree = "<group>";
+		};
+		AEBA4BB918F25114004E1FE0 /* External */ = {
+			isa = PBXGroup;
+			children = (
+				AEBA4BBA18F25114004E1FE0 /* libOCMock.a */,
+				AEBA4BBB18F25114004E1FE0 /* OCMock */,
+			);
+			path = External;
+			sourceTree = "<group>";
+		};
+		AEBA4BBB18F25114004E1FE0 /* OCMock */ = {
+			isa = PBXGroup;
+			children = (
+				AEBA4BBC18F25114004E1FE0 /* NSNotificationCenter+OCMAdditions.h */,
+				AEBA4BBD18F25114004E1FE0 /* OCMArg.h */,
+				AEBA4BBE18F25114004E1FE0 /* OCMConstraint.h */,
+				AEBA4BBF18F25114004E1FE0 /* OCMock.h */,
+				AEBA4BC018F25114004E1FE0 /* OCMockObject.h */,
+				AEBA4BC118F25114004E1FE0 /* OCMockRecorder.h */,
+			);
+			path = OCMock;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -525,7 +557,22 @@
 					"DEBUG=1",
 					"$(inherited)",
 				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"\"$(PROJECT_DIR)/i2048Tests/External\"/**",
+				);
 				INFOPLIST_FILE = "i2048Tests/i2048Tests-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/i2048Tests/External",
+				);
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-framework",
+					XCTest,
+					"-all_load",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
@@ -543,7 +590,22 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "i2048/Supporting Files/i2048-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"\"$(PROJECT_DIR)/i2048Tests/External\"/**",
+				);
 				INFOPLIST_FILE = "i2048Tests/i2048Tests-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/i2048Tests/External",
+				);
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-framework",
+					XCTest,
+					"-all_load",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
@@ -569,6 +631,7 @@
 				AEBA4B6F18F20FA8004E1FE0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		AEBA4B7018F20FA8004E1FE0 /* Build configuration list for PBXNativeTarget "i2048Tests" */ = {
 			isa = XCConfigurationList;
@@ -577,6 +640,7 @@
 				AEBA4B7218F20FA8004E1FE0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

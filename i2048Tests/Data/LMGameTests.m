@@ -8,7 +8,15 @@
 
 #import <XCTest/XCTest.h>
 
+#import <OCMock/OCMock.h>
+
+#import "LMGame.h"
+#import "LMBoard.h"
+
 @interface LMGameTests : XCTestCase
+
+@property (nonatomic, strong) LMGame *game;
+@property (nonatomic, strong) id boardMock;
 
 @end
 
@@ -17,13 +25,40 @@
 - (void)setUp
 {
     [super setUp];
-    // Put setup code here. This method is called before the invocation of each test method in the class.
+    
+    self.boardMock = [OCMockObject niceMockForClass:[LMBoard class]];
+    
+    self.game = [[LMGame alloc] initWithBoard:self.boardMock];
 }
 
-- (void)tearDown
+- (void)testIsOverReturnsFalseIfBoardNotFull
 {
-    // Put teardown code here. This method is called after the invocation of each test method in the class.
-    [super tearDown];
+    [[[self.boardMock stub] andReturnValue:@(NO)] hasMatches];
+    [[[self.boardMock expect] andReturnValue:@(NO)] isFull];
+    
+    XCTAssert(![self.game isOver], @"Game shouldn't have been over with non-full board");
+    
+    [self.boardMock verify];
+}
+
+- (void)testIsOverReturnsFalseIfBoardHasMatches
+{
+    [[[self.boardMock expect] andReturnValue:@(YES)] hasMatches];
+    [[[self.boardMock stub] andReturnValue:@(YES)] isFull];
+    
+    XCTAssert(![self.game isOver], @"Game shouldn't have been over with matches");
+    
+    [self.boardMock verify];
+}
+
+- (void)testIsOverReturnsTrueIfBoardIsFullAndNoMatchesExist
+{
+    [[[self.boardMock expect] andReturnValue:@(NO)] hasMatches];
+    [[[self.boardMock expect] andReturnValue:@(YES)] isFull];
+    
+    XCTAssert([self.game isOver], @"Game shouldn't have been over with matches");
+    
+    [self.boardMock verify];
 }
 
 @end

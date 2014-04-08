@@ -16,16 +16,6 @@
 
 - (instancetype)initWithBoard:(LMBoard *)board;
 
-- (BOOL)canShiftUp;
-- (BOOL)canShiftDown;
-- (BOOL)canShiftLeft;
-- (BOOL)canShiftRight;
-
-- (void)shiftUp;
-- (void)shiftDown;
-- (void)shiftLeft;
-- (void)shiftRight;
-
 - (BOOL)isOver;
 
 @end

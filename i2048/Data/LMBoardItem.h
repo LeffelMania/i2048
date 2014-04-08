@@ -8,16 +8,18 @@
 
 #import <Foundation/Foundation.h>
 
-FOUNDATION_EXPORT NSUInteger const LMBoardItemEmpty;
+typedef NSInteger LMBoardItemLevel;
+
+FOUNDATION_EXPORT LMBoardItemLevel const LMBoardItemEmpty;
 
 @interface LMBoardItem : NSObject
 
-@property (nonatomic, assign) NSUInteger level;
+@property (nonatomic, assign) LMBoardItemLevel level;
 
 - (BOOL)isEmpty;
 
 - (void)clear;
-- (NSUInteger)advance;
+- (LMBoardItemLevel)advance;
 
 - (BOOL)matches:(LMBoardItem *)otherItem;
 

@@ -30,56 +30,11 @@
 
 #pragma mark - Public Interface
 
-- (BOOL)canShiftUp
-{
-    return ![self.board isRowFull:0];
-}
-
-- (BOOL)canShiftDown
-{
-    return ![self.board isRowFull:self.board.size - 1];
-}
-
-- (BOOL)canShiftLeft
-{
-    return ![self.board isColumnFull:0];
-}
-
-- (BOOL)canShiftRight
-{
-    return ![self.board isColumnFull:self.board.size - 1];
-}
-
-- (void)shiftUp
-{
-    
-}
-
-- (void)shiftDown
-{
-    
-}
-
-- (void)shiftLeft
-{
-    
-}
-
-- (void)shiftRight
-{
-    
-}
-
 - (BOOL)isOver
 {
-    return [self.board isFull] && ![self hasMatches];
+    return [self.board isFull] && ![self.board hasMatches];
 }
 
 #pragma mark - Private Utility
-
-- (BOOL)hasMatches
-{
-    return NO;
-}
 
 @end

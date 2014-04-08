@@ -11,136 +11,452 @@
 #import "LMBoard.h"
 #import "LMBoardItem.h"
 
-static NSUInteger const kBoardSize = 3;
-
 @interface LMBoardTests : XCTestCase
-
-@property (nonatomic, strong) NSArray *values;
-@property (nonatomic, strong) LMBoard *board;
 
 @end
 
 @implementation LMBoardTests
 
-- (void)setUp
-{
-    [super setUp];
-    
-    self.values = @[
-                    @(1), @(2), @(3),
-                    @(4), @(5), @(6),
-                    @(7), @(8), @(9),
-                    ];
-    
-    self.board = [[LMBoard alloc] initWithSize:kBoardSize values:self.values];
-}
-
 - (void)testDescriptionDoesntCrash
 {
-    NSLog(@"%@", self.board);
+    NSArray *values = @[
+                        @(1)
+                        ];
+    
+    LMBoard *board = [[LMBoard alloc] initWithSize:1 values:values];
+    
+    NSLog(@"%@", board);
 }
 
 - (void)testEdgeCases
 {
-    [self.board iterateBoardWithBlock:nil];
-    [self.board iterateRow:1000 withBlock:nil];
-    [self.board iterateColumn:1000 withBlock:nil];
+    NSArray *values = @[
+                        @(4)
+                        ];
     
-    LMBoardItem *item = [self.board itemAtRow:0 column:1000];
-    XCTAssert(item == nil, @"Out-of-bounds board item wasn't nil");
+    LMBoard *board = [[LMBoard alloc] initWithSize:1 values:values];
     
-    item = [self.board itemAtRow:1000 column:0];
-    XCTAssert(item == nil, @"Out-of-bounds board item wasn't nil");
+    LMBoardItem *item = [board itemAtRow:1000 column:0];
+    XCTAssert(item == nil, @"Out-of-bounds row item wasn't nil");
+    
+    item = [board itemAtRow:0 column:1000];
+    XCTAssert(item == nil, @"Out-of-bounds column item wasn't nil");
+    
+    [board shiftRight];
+    item = [board itemAtRow:0 column:0];
+    XCTAssert(item.level == 4, @"Insertion of new item on full board edited board");
 }
 
 - (void)testIndexItemFetch
 {
-    for (NSUInteger row = 0; row < kBoardSize; row++)
+    NSArray *values = @[
+                        @(1), @(2),
+                        @(3), @(4)
+                        ];
+    
+    LMBoard *board = [[LMBoard alloc] initWithSize:2 values:values];
+    
+    for (NSUInteger row = 0; row < 2; row++)
     {
-        for (NSUInteger col = 0; col < kBoardSize; col++)
+        for (NSUInteger col = 0; col < 2; col++)
         {
-            NSUInteger index = (row * kBoardSize) + col;
+            NSUInteger index = (row * 2) + col;
             
-            LMBoardItem *item = [self.board itemAtRow:row column:col];
-            XCTAssert(item.level == [self.values[index] unsignedIntegerValue], @"Board iteration failed at index %u; expected %@, got %u", index, self.values[index], item.level);
+            LMBoardItem *item = [board itemAtRow:row column:col];
+            XCTAssert(item.level == [values[index] unsignedIntegerValue], @"Board iteration failed at index %u; expected %@, got %u", index, values[index], item.level);
         }
     }
 }
 
-- (void)testFullIteration
+#pragma mark - Shift Up
+
+- (void)testCanShiftUpReturnsFalseWhenTopRowIsFull
 {
-    __block NSUInteger index = 0;
-    [self.board iterateBoardWithBlock:^BOOL(LMBoardItem *item) {
-        
-        XCTAssert(item.level == [self.values[index] unsignedIntegerValue], @"Board iteration failed at index %u; expected %@, got %u", index, self.values[index], item.level);
-        index++;
-        
-        return NO;
-    }];
+    NSArray *values = @[
+                        @(1), @(2),
+                        @(LMBoardItemEmpty), @(LMBoardItemEmpty)
+                        ];
     
-    XCTAssert(index == (kBoardSize * kBoardSize), @"Board iteration expected %u items, iterated over %u", kBoardSize, index);
+    LMBoard *board = [[LMBoard alloc] initWithSize:2 values:values];
+    
+    XCTAssert(![board canShiftUp], @"Can't shift up if top row is full");
 }
 
-- (void)testRowIteration
+- (void)testCanShiftUpReturnsFalseWhenUnfilledColumnIsEmpty
 {
-    __block NSUInteger index = 0;
-    [self.board iterateRow:0 withBlock:^BOOL(LMBoardItem *item) {
-        
-        XCTAssert(item.level == [self.values[index] unsignedIntegerValue], @"Board iteration failed at index %u; expected %@, got %u", index, self.values[index], item.level);
-        index++;
-        
-        return NO;
-    }];
+    NSArray *values = @[
+                        @(1), @(LMBoardItemEmpty),
+                        @(LMBoardItemEmpty), @(LMBoardItemEmpty)
+                        ];
     
-    XCTAssert(index == kBoardSize, @"Board row iteration expected %u items, iterated over %u", kBoardSize, index);
+    LMBoard *board = [[LMBoard alloc] initWithSize:2 values:values];
+    
+    XCTAssert(![board canShiftUp], @"Can't shift up if unfilled column is empty");
 }
 
-- (void)testColumnIteration
+- (void)testCanShiftUpReturnsTrue
 {
-    NSUInteger column = 1;
-    __block NSUInteger index = column;
-    __block NSUInteger count = 0;
+    NSArray *values = @[
+                        @(LMBoardItemEmpty), @(LMBoardItemEmpty),
+                        @(1), @(LMBoardItemEmpty)
+                        ];
     
-    [self.board iterateColumn:column withBlock:^BOOL(LMBoardItem *item) {
-        
-        XCTAssert(item.level == [self.values[index] unsignedIntegerValue], @"Board iteration failed at index %u; expected %@, got %u", index, self.values[index], item.level);
-        index += kBoardSize;
-        count++;
-        
-        return NO;
-    }];
+    LMBoard *board = [[LMBoard alloc] initWithSize:2 values:values];
     
-    XCTAssert(count == kBoardSize, @"Board row iteration expected %u items, iterated over %u", kBoardSize, count);
+    XCTAssert([board canShiftUp], @"Couldn't shift up");
 }
 
-- (void)testIsFull
+- (void)testShiftUpMovesItemValues
 {
-    XCTAssert([self.board isFull], @"Board did not return that it was full.");
+    NSArray *values = @[
+                        @(LMBoardItemEmpty), @(LMBoardItemEmpty),
+                        @(1), @(LMBoardItemEmpty)
+                        ];
     
-    LMBoardItem *item = [self.board itemAtRow:0 column:0];
-    [item clear];
+    LMBoard *board = [[LMBoard alloc] initWithSize:2 values:values];
+    [board shiftUp];
     
-    XCTAssert(![self.board isFull], @"Board returned that it was full.");
+    LMBoardItem *item = [board itemAtRow:0 column:0];
+    XCTAssert(item.level == 1, @"Shift up didn't move item");
 }
 
-- (void)testIsRowFull
+- (void)testShiftUpConsolidatesMatches
 {
-    XCTAssert([self.board isRowFull:0], @"Board did not return that row was full.");
+    NSArray *values = @[
+                        @(1), @(LMBoardItemEmpty),
+                        @(1), @(LMBoardItemEmpty)
+                        ];
     
-    LMBoardItem *item = [self.board itemAtRow:0 column:0];
-    [item clear];
+    LMBoard *board = [[LMBoard alloc] initWithSize:2 values:values];
+    [board shiftUp];
     
-    XCTAssert(![self.board isRowFull:0], @"Board returned that row was full.");
+    LMBoardItem *item = [board itemAtRow:0 column:0];
+    XCTAssert(item.level == 2, @"Shift up didn't consolidate pair");
 }
 
-- (void)testIsColumnFull
+- (void)testShiftUpInsertsNewItem
 {
-    XCTAssert([self.board isColumnFull:0], @"Board did not return that row was full.");
+    NSArray *values = @[
+                        @(4), @(LMBoardItemEmpty),
+                        @(5), @(6)
+                        ];
     
-    LMBoardItem *item = [self.board itemAtRow:0 column:0];
-    [item clear];
+    LMBoard *board = [[LMBoard alloc] initWithSize:2 values:values];
+    [board shiftUp];
     
-    XCTAssert(![self.board isColumnFull:0], @"Board returned that row was full.");
+    LMBoardItem *item = [board itemAtRow:1 column:1];
+    XCTAssert(item.level == 1, @"Shift up didn't insert new item");
+}
+
+#pragma mark - Shift Down
+
+- (void)testCanShiftDownReturnsFalseWhenBottomRowIsFull
+{
+    NSArray *values = @[
+                        @(LMBoardItemEmpty), @(LMBoardItemEmpty),
+                        @(1), @(2)
+                        ];
+    
+    LMBoard *board = [[LMBoard alloc] initWithSize:2 values:values];
+    
+    XCTAssert(![board canShiftDown], @"Can't shift down if bottom row is full");
+}
+
+- (void)testCanShiftDownReturnsFalseWhenUnfilledColumnIsEmpty
+{
+    NSArray *values = @[
+                        @(LMBoardItemEmpty), @(LMBoardItemEmpty),
+                        @(1), @(LMBoardItemEmpty)
+                        ];
+    
+    LMBoard *board = [[LMBoard alloc] initWithSize:2 values:values];
+    
+    XCTAssert(![board canShiftDown], @"Can't shift down if unfilled column is empty");
+}
+
+- (void)testCanShiftDownReturnsTrue
+{
+    NSArray *values = @[
+                        @(1), @(LMBoardItemEmpty),
+                        @(LMBoardItemEmpty), @(LMBoardItemEmpty)
+                        ];
+    
+    LMBoard *board = [[LMBoard alloc] initWithSize:2 values:values];
+    
+    XCTAssert([board canShiftDown], @"Couldn't shift down");
+}
+
+- (void)testShiftDownMovesItemValues
+{
+    NSArray *values = @[
+                        @(1), @(LMBoardItemEmpty),
+                        @(LMBoardItemEmpty), @(LMBoardItemEmpty)
+                        ];
+    
+    LMBoard *board = [[LMBoard alloc] initWithSize:2 values:values];
+    [board shiftDown];
+    
+    LMBoardItem *item = [board itemAtRow:1 column:0];
+    XCTAssert(item.level == 1, @"Shift up didn't move item");
+}
+
+- (void)testShiftDownConsolidatesMatches
+{
+    NSArray *values = @[
+                        @(1), @(LMBoardItemEmpty),
+                        @(1), @(LMBoardItemEmpty)
+                        ];
+    
+    LMBoard *board = [[LMBoard alloc] initWithSize:2 values:values];
+    [board shiftDown];
+    
+    LMBoardItem *item = [board itemAtRow:1 column:0];
+    XCTAssert(item.level == 2, @"Shift up didn't consolidate pair");
+}
+
+- (void)testShiftDownInsertsNewItem
+{
+    NSArray *values = @[
+                        @(4), @(6),
+                        @(5), @(LMBoardItemEmpty)
+                        ];
+    
+    LMBoard *board = [[LMBoard alloc] initWithSize:2 values:values];
+    [board shiftDown];
+    
+    LMBoardItem *item = [board itemAtRow:0 column:1];
+    XCTAssert(item.level == 1, @"Shift up didn't insert new item");
+}
+
+#pragma mark - Shift Left
+
+- (void)testCanShiftLeftReturnsFalseWhenFirstColumnIsFull
+{
+    NSArray *values = @[
+                        @(1), @(LMBoardItemEmpty),
+                        @(2), @(LMBoardItemEmpty)
+                        ];
+    
+    LMBoard *board = [[LMBoard alloc] initWithSize:2 values:values];
+    
+    XCTAssert(![board canShiftLeft], @"Can't shift left if first column is full");
+}
+
+- (void)testCanShiftLeftReturnsFalseWhenUnfilledRowIsEmpty
+{
+    NSArray *values = @[
+                        @(LMBoardItemEmpty), @(LMBoardItemEmpty),
+                        @(1), @(LMBoardItemEmpty)
+                        ];
+    
+    LMBoard *board = [[LMBoard alloc] initWithSize:2 values:values];
+    
+    XCTAssert(![board canShiftLeft], @"Can't shift left if unfilled row is empty");
+}
+
+- (void)testCanShiftLeftReturnsTrue
+{
+    NSArray *values = @[
+                        @(LMBoardItemEmpty), @(1),
+                        @(2), @(3)
+                        ];
+    
+    LMBoard *board = [[LMBoard alloc] initWithSize:2 values:values];
+    
+    XCTAssert([board canShiftLeft], @"Couldn't shift left");
+}
+
+- (void)testShiftLeftMovesItemValues
+{
+    NSArray *values = @[
+                        @(LMBoardItemEmpty), @(1),
+                        @(LMBoardItemEmpty), @(LMBoardItemEmpty)
+                        ];
+    
+    LMBoard *board = [[LMBoard alloc] initWithSize:2 values:values];
+    [board shiftLeft];
+    
+    LMBoardItem *item = [board itemAtRow:0 column:0];
+    XCTAssert(item.level == 1, @"Shift up didn't move item");
+}
+
+- (void)testShiftLeftConsolidatesMatches
+{
+    NSArray *values = @[
+                        @(1), @(1),
+                        @(LMBoardItemEmpty), @(LMBoardItemEmpty)
+                        ];
+    
+    LMBoard *board = [[LMBoard alloc] initWithSize:2 values:values];
+    [board shiftLeft];
+    
+    LMBoardItem *item = [board itemAtRow:0 column:0];
+    XCTAssert(item.level == 2, @"Shift up didn't consolidate pair");
+}
+
+- (void)testShiftLeftInsertsNewItem
+{
+    NSArray *values = @[
+                        @(LMBoardItemEmpty), @(4),
+                        @(5), @(6)
+                        ];
+    
+    LMBoard *board = [[LMBoard alloc] initWithSize:2 values:values];
+    [board shiftLeft];
+    
+    LMBoardItem *item = [board itemAtRow:0 column:1];
+    XCTAssert(item.level == 1, @"Shift up didn't insert new item");
+}
+
+#pragma mark - Shift Right
+
+- (void)testCanShiftRightReturnsFalseWhenLastColumnIsFull
+{
+    NSArray *values = @[
+                        @(LMBoardItemEmpty), @(1),
+                        @(LMBoardItemEmpty), @(2)
+                        ];
+    
+    LMBoard *board = [[LMBoard alloc] initWithSize:2 values:values];
+    
+    XCTAssert(![board canShiftRight], @"Can't shift right if last column is full");
+}
+
+- (void)testCanShiftRightReturnsFalseWhenUnfilledRowIsEmpty
+{
+    NSArray *values = @[
+                        @(LMBoardItemEmpty), @(LMBoardItemEmpty),
+                        @(LMBoardItemEmpty), @(1)
+                        ];
+    
+    LMBoard *board = [[LMBoard alloc] initWithSize:2 values:values];
+    
+    XCTAssert(![board canShiftRight], @"Can't shift right if unfilled row is empty");
+}
+
+- (void)testCanShiftRightReturnsTrue
+{
+    NSArray *values = @[
+                        @(1), @(LMBoardItemEmpty),
+                        @(2), @(3)
+                        ];
+    
+    LMBoard *board = [[LMBoard alloc] initWithSize:2 values:values];
+    
+    XCTAssert([board canShiftRight], @"Couldn't shift right");
+}
+
+- (void)testShiftRightMovesItemValues
+{
+    NSArray *values = @[
+                        @(1), @(LMBoardItemEmpty),
+                        @(LMBoardItemEmpty), @(LMBoardItemEmpty)
+                        ];
+    
+    LMBoard *board = [[LMBoard alloc] initWithSize:2 values:values];
+    [board shiftRight];
+    
+    LMBoardItem *item = [board itemAtRow:0 column:1];
+    XCTAssert(item.level == 1, @"Shift up didn't move item");
+}
+
+- (void)testShiftRightConsolidatesMatches
+{
+    NSArray *values = @[
+                        @(1), @(1),
+                        @(LMBoardItemEmpty), @(LMBoardItemEmpty)
+                        ];
+    
+    LMBoard *board = [[LMBoard alloc] initWithSize:2 values:values];
+    [board shiftRight];
+    
+    LMBoardItem *item = [board itemAtRow:0 column:1];
+    XCTAssert(item.level == 2, @"Shift up didn't consolidate pair");
+}
+
+- (void)testShiftRightInsertsNewItem
+{
+    NSArray *values = @[
+                        @(4), @(LMBoardItemEmpty),
+                        @(5), @(6)
+                        ];
+    
+    LMBoard *board = [[LMBoard alloc] initWithSize:2 values:values];
+    [board shiftRight];
+    
+    LMBoardItem *item = [board itemAtRow:0 column:0];
+    XCTAssert(item.level == 1, @"Shift up didn't insert new item");
+}
+
+#pragma mark - Has Matches
+
+- (void)testHashMatchesReturnsFalseForEmptyBoard
+{
+    LMBoard *board = [[LMBoard alloc] initWithSize:4];
+    
+    XCTAssert(![board hasMatches], @"Board shouldn't have had matches");
+}
+
+- (void)testHasMatchesReturnsFalseForFilledBoard
+{
+    NSArray *values = @[
+                        @(1), @(LMBoardItemEmpty),
+                        @(2), @(3)
+                        ];
+    
+    LMBoard *board = [[LMBoard alloc] initWithSize:2 values:values];
+    
+    XCTAssert(![board hasMatches], @"Board shouldn't have had matches");
+}
+
+- (void)testHasMatchesReturnsTrueForVerticalMatches
+{
+    NSArray *values = @[
+                        @(1), @(2),
+                        @(1), @(3)
+                        ];
+    
+    LMBoard *board = [[LMBoard alloc] initWithSize:2 values:values];
+    
+    XCTAssert([board hasMatches], @"Board should've had matches");
+}
+
+- (void)testHasMatchesReturnsTrueForHorizontalMatches
+{
+    NSArray *values = @[
+                        @(1), @(1),
+                        @(2), @(3)
+                        ];
+    
+    LMBoard *board = [[LMBoard alloc] initWithSize:2 values:values];
+    
+    XCTAssert([board hasMatches], @"Board should've had matches");
+}
+
+#pragma mark - Is Full
+
+- (void)testIsFullReturnsTrueWhenFull
+{
+    NSArray *values = @[
+                        @(1), @(2),
+                        @(3), @(4)
+                        ];
+    
+    LMBoard *board = [[LMBoard alloc] initWithSize:2 values:values];
+    
+    XCTAssert([board isFull], @"Board did not return that it was full.");
+}
+
+- (void)testIsFullReturnsFalseWhenCellIsEmpty
+{
+    NSArray *values = @[
+                        @(1), @(2),
+                        @(3), @(LMBoardItemEmpty)
+                        ];
+    
+    LMBoard *board = [[LMBoard alloc] initWithSize:2 values:values];
+    
+    XCTAssert(![board isFull], @"Board returned that it was full.");
 }
 
 @end

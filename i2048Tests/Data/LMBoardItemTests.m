@@ -25,6 +25,11 @@
     self.item = [LMBoardItem new];
 }
 
+- (void)testDescriptionDoesntCrash
+{
+    XCTAssertNoThrow([self.item description], @"");
+}
+
 - (void)testInitializationIsEmpty
 {
     XCTAssert([self.item isEmpty], @"Freshly initialized item was not empty");

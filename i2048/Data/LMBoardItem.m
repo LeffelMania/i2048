@@ -8,7 +8,7 @@
 
 #import "LMBoardItem.h"
 
-NSUInteger const LMBoardItemEmpty = 0;
+LMBoardItemLevel const LMBoardItemEmpty = 0;
 
 @interface LMBoardItem ()
 
@@ -38,7 +38,7 @@ NSUInteger const LMBoardItemEmpty = 0;
     self.level = LMBoardItemEmpty;
 }
 
-- (NSUInteger)advance
+- (LMBoardItemLevel)advance
 {
     if (self.level == LMBoardItemEmpty)
     {
@@ -65,6 +65,11 @@ NSUInteger const LMBoardItemEmpty = 0;
     }
     
     return self.level == otherItem.level;
+}
+
+- (NSString *)description
+{
+    return [NSString stringWithFormat:@"LMBoardItem: %@", [self isEmpty] ? @"Empty" : @(self.level)];
 }
 
 @end

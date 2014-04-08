@@ -21,12 +21,17 @@ typedef BOOL(^LMBoardIterationBlock)(LMBoardItem *item);
 
 - (LMBoardItem *)itemAtRow:(NSUInteger)row column:(NSUInteger)column;
 
-- (void)iterateBoardWithBlock:(LMBoardIterationBlock)block;
-- (void)iterateRow:(NSUInteger)row withBlock:(LMBoardIterationBlock)block;
-- (void)iterateColumn:(NSUInteger)col withBlock:(LMBoardIterationBlock)block;
+- (BOOL)canShiftUp;
+- (BOOL)canShiftDown;
+- (BOOL)canShiftLeft;
+- (BOOL)canShiftRight;
+
+- (void)shiftUp;
+- (void)shiftDown;
+- (void)shiftLeft;
+- (void)shiftRight;
 
 - (BOOL)isFull;
-- (BOOL)isRowFull:(NSUInteger)row;
-- (BOOL)isColumnFull:(NSUInteger)col;
+- (BOOL)hasMatches;
 
 @end
