@@ -42,25 +42,21 @@
 - (IBAction)pressedLeft:(id)sender
 {
     [self.board shiftLeft];
-    NSLog(@"%@", self.board);
 }
 
 - (IBAction)pressedRight:(id)sender
 {
     [self.board shiftRight];
-    NSLog(@"%@", self.board);
 }
 
 - (IBAction)pressedUp:(id)sender
 {
     [self.board shiftUp];
-    NSLog(@"%@", self.board);
 }
 
 - (IBAction)pressedDown:(id)sender
 {
     [self.board shiftDown];
-    NSLog(@"%@", self.board);
 }
 
 @end
