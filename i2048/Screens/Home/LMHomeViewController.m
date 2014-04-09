@@ -8,6 +8,10 @@
 
 #import "LMHomeViewController.h"
 
+#import "LMGameViewController.h"
+
+#import "LMBoard.h"
+
 @interface LMHomeViewController ()
 
 @end
@@ -30,6 +34,14 @@
     
     self.edgesForExtendedLayout = UIRectEdgeNone;
     self.title = @"Hi.";
+}
+
+- (IBAction)pressedGame:(id)sender
+{
+    LMBoard *board = [[LMBoard alloc] initWithSize:4];
+    
+    LMGameViewController *vc = [[LMGameViewController alloc] initWithBoard:board];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 @end

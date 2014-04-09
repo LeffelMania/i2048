@@ -46,6 +46,11 @@
                 return NO;
             }];
         }
+        else
+        {
+            [self insertNewItem];
+            [self insertNewItem];
+        }
     }
     return self;
 }

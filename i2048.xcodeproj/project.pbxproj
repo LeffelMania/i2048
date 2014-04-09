@@ -27,6 +27,11 @@
 		AEBA4B9E18F224ED004E1FE0 /* LMGameTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AEBA4B9D18F224ED004E1FE0 /* LMGameTests.m */; };
 		AEBA4BA118F24215004E1FE0 /* LMBoardItemTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AEBA4BA018F24215004E1FE0 /* LMBoardItemTests.m */; };
 		AEBA4BC218F25114004E1FE0 /* libOCMock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AEBA4BBA18F25114004E1FE0 /* libOCMock.a */; };
+		AED09BFF18F50275005160DC /* LMGameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AED09BFE18F50275005160DC /* LMGameViewController.m */; };
+		AED09C0218F502DA005160DC /* LMGameViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AED09C0118F502DA005160DC /* LMGameViewController.xib */; };
+		AED09C0518F502F2005160DC /* LMBoardView.m in Sources */ = {isa = PBXBuildFile; fileRef = AED09C0418F502F2005160DC /* LMBoardView.m */; };
+		AED09C0918F50407005160DC /* LMBoardItemView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AED09C0818F50407005160DC /* LMBoardItemView.xib */; };
+		AED09C0C18F504A9005160DC /* LMBoardItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = AED09C0B18F504A9005160DC /* LMBoardItemView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,6 +79,14 @@
 		AEBA4BBF18F25114004E1FE0 /* OCMock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMock.h; sourceTree = "<group>"; };
 		AEBA4BC018F25114004E1FE0 /* OCMockObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMockObject.h; sourceTree = "<group>"; };
 		AEBA4BC118F25114004E1FE0 /* OCMockRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMockRecorder.h; sourceTree = "<group>"; };
+		AED09BFD18F50275005160DC /* LMGameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMGameViewController.h; sourceTree = "<group>"; };
+		AED09BFE18F50275005160DC /* LMGameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMGameViewController.m; sourceTree = "<group>"; };
+		AED09C0118F502DA005160DC /* LMGameViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LMGameViewController.xib; sourceTree = "<group>"; };
+		AED09C0318F502F2005160DC /* LMBoardView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMBoardView.h; sourceTree = "<group>"; };
+		AED09C0418F502F2005160DC /* LMBoardView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMBoardView.m; sourceTree = "<group>"; };
+		AED09C0818F50407005160DC /* LMBoardItemView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LMBoardItemView.xib; sourceTree = "<group>"; };
+		AED09C0A18F504A9005160DC /* LMBoardItemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMBoardItemView.h; sourceTree = "<group>"; };
+		AED09C0B18F504A9005160DC /* LMBoardItemView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMBoardItemView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -209,6 +222,7 @@
 		AEBA4B8618F210BA004E1FE0 /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				AED09BFC18F50225005160DC /* Game */,
 				AEBA4B8718F210BA004E1FE0 /* Home */,
 			);
 			path = Screens;
@@ -275,6 +289,29 @@
 				AEBA4BC118F25114004E1FE0 /* OCMockRecorder.h */,
 			);
 			path = OCMock;
+			sourceTree = "<group>";
+		};
+		AED09BFC18F50225005160DC /* Game */ = {
+			isa = PBXGroup;
+			children = (
+				AED09C0018F5028D005160DC /* xib */,
+				AED09C0A18F504A9005160DC /* LMBoardItemView.h */,
+				AED09C0B18F504A9005160DC /* LMBoardItemView.m */,
+				AED09C0318F502F2005160DC /* LMBoardView.h */,
+				AED09C0418F502F2005160DC /* LMBoardView.m */,
+				AED09BFD18F50275005160DC /* LMGameViewController.h */,
+				AED09BFE18F50275005160DC /* LMGameViewController.m */,
+			);
+			path = Game;
+			sourceTree = "<group>";
+		};
+		AED09C0018F5028D005160DC /* xib */ = {
+			isa = PBXGroup;
+			children = (
+				AED09C0818F50407005160DC /* LMBoardItemView.xib */,
+				AED09C0118F502DA005160DC /* LMGameViewController.xib */,
+			);
+			path = xib;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -357,6 +394,8 @@
 				AEBA4B8218F21000004E1FE0 /* Images.xcassets in Resources */,
 				AEBA4B8318F21000004E1FE0 /* InfoPlist.strings in Resources */,
 				AEBA4B8F18F210FF004E1FE0 /* LMHomeViewController.xib in Resources */,
+				AED09C0218F502DA005160DC /* LMGameViewController.xib in Resources */,
+				AED09C0918F50407005160DC /* LMBoardItemView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -394,7 +433,10 @@
 				AEBA4B8518F21000004E1FE0 /* main.m in Sources */,
 				AEBA4B9918F215DC004E1FE0 /* LMBoardItem.m in Sources */,
 				AEBA4B8118F21000004E1FE0 /* LMAppDelegate.m in Sources */,
+				AED09C0C18F504A9005160DC /* LMBoardItemView.m in Sources */,
+				AED09BFF18F50275005160DC /* LMGameViewController.m in Sources */,
 				AEBA4B9318F2129E004E1FE0 /* LMGame.m in Sources */,
+				AED09C0518F502F2005160DC /* LMBoardView.m in Sources */,
 				AEBA4B9618F212B0004E1FE0 /* LMBoard.m in Sources */,
 				AEBA4B8B18F210CF004E1FE0 /* LMHomeViewController.m in Sources */,
 			);
