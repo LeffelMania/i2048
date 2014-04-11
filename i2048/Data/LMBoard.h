@@ -14,10 +14,13 @@ typedef BOOL(^LMBoardIterationBlock)(LMBoardItem *item);
 
 @interface LMBoard : NSObject
 
-@property (nonatomic, readonly) NSUInteger size;
+@property (nonatomic, readonly) NSUInteger rowCount;
+@property (nonatomic, readonly) NSUInteger columnCount;
 
 - (instancetype)initWithSize:(NSUInteger)size;
 - (instancetype)initWithSize:(NSUInteger)size values:(NSArray *)valueArray;
+- (instancetype)initWithRows:(NSUInteger)rows columns:(NSUInteger)cols;
+- (instancetype)initWithRows:(NSUInteger)rows columns:(NSUInteger)cols values:(NSArray *)valueArray;
 
 - (LMBoardItem *)itemAtRow:(NSUInteger)row column:(NSUInteger)column;
 

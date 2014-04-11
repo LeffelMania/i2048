@@ -39,17 +39,17 @@
     _board = board;
     
     CGFloat spacing = 10;
-    CGFloat itemWidth = ((self.frame.size.width - spacing) / self.board.size) - spacing;
+    CGFloat itemWidth = ((self.frame.size.width - spacing) / self.board.rowCount) - spacing;
     
     UINib *nib = [UINib nibWithNibName:@"LMBoardItemView" bundle:nil];
     
     CGFloat y = spacing;
     
-    for (NSUInteger row = 0; row < self.board.size; row++)
+    for (NSUInteger row = 0; row < self.board.rowCount; row++)
     {
         CGFloat x = spacing;
         
-        for (NSUInteger col = 0; col < self.board.size; col++)
+        for (NSUInteger col = 0; col < self.board.columnCount; col++)
         {
             LMBoardItem *item = [self.board itemAtRow:row column:col];
             
