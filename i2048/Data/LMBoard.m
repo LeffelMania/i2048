@@ -381,7 +381,7 @@
     NSUInteger index = start;
     do
     {
-        NSUInteger row = index / self.rowCount;
+        NSUInteger row = index / self.columnCount;
         NSUInteger col = index % self.columnCount;
         
         LMBoardItem *item = [self itemAtRow:row column:col];
