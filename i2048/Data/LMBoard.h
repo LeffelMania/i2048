@@ -17,10 +17,10 @@ typedef BOOL(^LMBoardIterationBlock)(LMBoardItem *item);
 @property (nonatomic, readonly) NSUInteger rowCount;
 @property (nonatomic, readonly) NSUInteger columnCount;
 
-- (instancetype)initWithSize:(NSUInteger)size;
-- (instancetype)initWithSize:(NSUInteger)size values:(NSArray *)valueArray;
+@property (nonatomic, assign) NSUInteger numberOfShiftsPerSeed;
+
 - (instancetype)initWithRows:(NSUInteger)rows columns:(NSUInteger)cols;
-- (instancetype)initWithRows:(NSUInteger)rows columns:(NSUInteger)cols values:(NSArray *)valueArray;
+- (instancetype)initWithRows:(NSUInteger)rows columns:(NSUInteger)cols initialItemCount:(NSUInteger)count;
 
 - (LMBoardItem *)itemAtRow:(NSUInteger)row column:(NSUInteger)column;
 

@@ -38,7 +38,7 @@
 
 - (IBAction)pressedGame:(id)sender
 {
-    LMBoard *board = [[LMBoard alloc] initWithSize:4];
+    LMBoard *board = [[LMBoard alloc] initWithRows:4 columns:4 initialItemCount:2];
     
     LMGameViewController *vc = [[LMGameViewController alloc] initWithBoard:board];
     [self.navigationController pushViewController:vc animated:YES];

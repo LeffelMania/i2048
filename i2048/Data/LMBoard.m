@@ -9,11 +9,14 @@
 #import "LMBoard.h"
 
 #import "LMBoardItem.h"
+#import "LMRandom.h"
 
 @interface LMBoard ()
 
 @property (nonatomic, assign) NSUInteger rowCount;
 @property (nonatomic, assign) NSUInteger columnCount;
+
+@property (nonatomic, assign) NSUInteger shiftsSinceLastSeed;
 
 @property (nonatomic, strong) NSMutableArray *values;
 
@@ -21,22 +24,12 @@
 
 @implementation LMBoard
 
-- (instancetype)initWithSize:(NSUInteger)size
-{
-    return [self initWithRows:size columns:size values:nil];
-}
-
-- (instancetype)initWithSize:(NSUInteger)size values:(NSArray *)valueArray
-{
-    return [self initWithRows:size columns:size values:valueArray];
-}
-
 - (instancetype)initWithRows:(NSUInteger)rows columns:(NSUInteger)cols
 {
-    return [self initWithRows:rows columns:cols values:nil];
+    return [self initWithRows:rows columns:cols initialItemCount:0];
 }
 
-- (instancetype)initWithRows:(NSUInteger)rows columns:(NSUInteger)cols values:(NSArray *)valueArray
+- (instancetype)initWithRows:(NSUInteger)rows columns:(NSUInteger)cols initialItemCount:(NSUInteger)count
 {
     self = [super init];
     if (self)
@@ -47,21 +40,12 @@
         self.rowCount = rows;
         self.columnCount = cols;
         
-        self.values = [self createBoard];
+        self.values = [NSMutableArray array];
         
-        if (valueArray)
+        [self createBoard];
+        
+        for (NSUInteger i = 0; i < count && i < [self count]; i++)
         {
-            NSAssert([valueArray count] == [self count], @"Expected %u items in provided values array, got %u", [self count], [valueArray count]);
-            
-            [valueArray enumerateObjectsUsingBlock:^(NSNumber *obj, NSUInteger idx, BOOL *stop) {
-                
-                LMBoardItem *item = self.values[idx];
-                item.level = [obj integerValue];
-            }];
-        }
-        else
-        {
-            [self insertNewItem];
             [self insertNewItem];
         }
     }
@@ -188,7 +172,7 @@
         [self shiftIndexes:colSet reverse:NO];
     }
     
-    [self insertNewItem];
+    [self addSeedFromShift];
 }
 
 - (void)shiftDown
@@ -201,7 +185,7 @@
         [self shiftIndexes:colSet reverse:YES];
     }
     
-    [self insertNewItem];
+    [self addSeedFromShift];
 }
 
 - (void)shiftLeft
@@ -214,7 +198,7 @@
         [self shiftIndexes:rowSet reverse:NO];
     }
     
-    [self insertNewItem];
+    [self addSeedFromShift];
 }
 
 - (void)shiftRight
@@ -227,24 +211,22 @@
         [self shiftIndexes:rowSet reverse:YES];
     }
     
-    [self insertNewItem];
+    [self addSeedFromShift];
 }
 
 #pragma mark - Private Utility
 
-- (NSMutableArray *)createBoard
+- (void)createBoard
 {
-    NSMutableArray *values = [NSMutableArray array];
+    [self.values removeAllObjects];
     
     for (NSUInteger row = 0; row < self.rowCount; row++)
     {
         for (NSUInteger col = 0; col < self.columnCount; col++)
         {
-            [values addObject:[LMBoardItem new]];
+            [self.values addObject:[LMBoardItem new]];
         }
     }
-    
-    return values;
 }
 
 - (NSIndexSet *)indexSetForRow:(NSUInteger)row
@@ -360,6 +342,8 @@
                                         
                                         toFill.level = item.level;
                                         [item clear];
+                                        
+                                        [fillQueue addObject:item];
                                     }
                                 }];
 }
@@ -369,14 +353,20 @@
     return (self.rowCount * self.columnCount);
 }
 
+- (void)addSeedFromShift
+{
+    self.shiftsSinceLastSeed++;
+    
+    if (self.shiftsSinceLastSeed >= self.numberOfShiftsPerSeed)
+    {
+        self.shiftsSinceLastSeed = 0;
+        [self insertNewItem];
+    }
+}
+
 - (void)insertNewItem
 {
-    if ([self isFull])
-    {
-        return;
-    }
-    
-    NSUInteger start = arc4random() % [self count];
+    NSUInteger start = [LMRandom nextInteger:[self count]];
     
     NSUInteger index = start;
     do
