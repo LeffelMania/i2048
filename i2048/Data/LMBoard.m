@@ -9,6 +9,7 @@
 #import "LMBoard.h"
 
 #import "LMBoardItem.h"
+#import "LMShiftResult.h"
 #import "LMRandom.h"
 
 @interface LMBoard ()
@@ -162,56 +163,24 @@
 
 #pragma mark Shift Actions
 
-- (void)shiftUp
+- (LMShiftResult *)shiftUp
 {
-    for (NSUInteger col = 0; col < self.columnCount; col++)
-    {
-        NSIndexSet *colSet = [self indexSetForColumn:col];
-        
-        [self consolidateIndexes:colSet reverse:NO];
-        [self shiftIndexes:colSet reverse:NO];
-    }
-    
-    [self addSeedFromShift];
+    return [self shiftBoardByRows:YES reverse:NO];
 }
 
-- (void)shiftDown
+- (LMShiftResult *)shiftDown
 {
-    for (NSUInteger col = 0; col < self.columnCount; col++)
-    {
-        NSIndexSet *colSet = [self indexSetForColumn:col];
-        
-        [self consolidateIndexes:colSet reverse:YES];
-        [self shiftIndexes:colSet reverse:YES];
-    }
-    
-    [self addSeedFromShift];
+    return [self shiftBoardByRows:YES reverse:YES];
 }
 
-- (void)shiftLeft
+- (LMShiftResult *)shiftLeft
 {
-    for (NSUInteger row = 0; row < self.rowCount; row++)
-    {
-        NSIndexSet *rowSet = [self indexSetForRow:row];
-        
-        [self consolidateIndexes:rowSet reverse:NO];
-        [self shiftIndexes:rowSet reverse:NO];
-    }
-    
-    [self addSeedFromShift];
+    return [self shiftBoardByRows:NO reverse:NO];
 }
 
-- (void)shiftRight
+- (LMShiftResult *)shiftRight
 {
-    for (NSUInteger row = 0; row < self.rowCount; row++)
-    {
-        NSIndexSet *rowSet = [self indexSetForRow:row];
-        
-        [self consolidateIndexes:rowSet reverse:YES];
-        [self shiftIndexes:rowSet reverse:YES];
-    }
-    
-    [self addSeedFromShift];
+    return [self shiftBoardByRows:NO reverse:YES];
 }
 
 #pragma mark - Private Utility
@@ -224,7 +193,8 @@
     {
         for (NSUInteger col = 0; col < self.columnCount; col++)
         {
-            [self.values addObject:[LMBoardItem new]];
+            LMBoardItem *item = [[LMBoardItem alloc] initWithRow:row column:col];
+            [self.values addObject:item];
         }
     }
 }
@@ -296,10 +266,31 @@
     return result;
 }
 
-- (void)consolidateIndexes:(NSIndexSet *)subset reverse:(BOOL)reverse
+- (LMShiftResult *)shiftBoardByRows:(BOOL)rows reverse:(BOOL)reverse
 {
-    __block LMBoardItem *toMatch = nil;
+    NSMutableArray *moves = [NSMutableArray array];
+    NSMutableArray *matches = [NSMutableArray array];
     
+    NSUInteger count = rows ? self.columnCount : self.rowCount;
+    
+    for (NSUInteger i = 0; i < count; i++)
+    {
+        NSIndexSet *itemSet = rows ? [self indexSetForColumn:i] : [self indexSetForRow:i];
+        
+        [matches addObjectsFromArray:[self consolidateIndexes:itemSet reverse:reverse]];
+        [moves addObjectsFromArray:[self shiftIndexes:itemSet reverse:reverse]];
+    }
+    
+    [self addSeedFromShift];
+    
+    return [[LMShiftResult alloc] initWithMatches:matches moves:moves];
+}
+
+- (NSArray *)consolidateIndexes:(NSIndexSet *)subset reverse:(BOOL)reverse
+{
+    NSMutableArray *matches = [NSMutableArray array];
+    
+    __block LMBoardItem *toMatch = nil;
     [self.values enumerateObjectsAtIndexes:subset
                                    options:reverse ? NSEnumerationReverse : 0
                                 usingBlock:^(LMBoardItem *item, NSUInteger idx, BOOL *stop) {
@@ -315,18 +306,24 @@
                                     }
                                     else if ([item matches:toMatch])
                                     {
+                                        LMBoardEvent *event = [[LMBoardEvent alloc] initWithFromItem:item toItem:toMatch];
+                                        [matches addObject:event];
+                                        
                                         [toMatch advance];
                                         [item clear];
                                         
                                         toMatch = nil;
                                     }
                                 }];
+    
+    return matches;
 }
 
-- (void)shiftIndexes:(NSIndexSet *)subset reverse:(BOOL)reverse
+- (NSArray *)shiftIndexes:(NSIndexSet *)subset reverse:(BOOL)reverse
 {
-    NSMutableArray *fillQueue = [NSMutableArray array];
+    NSMutableArray *moves = [NSMutableArray array];
     
+    NSMutableArray *fillQueue = [NSMutableArray array];
     [self.values enumerateObjectsAtIndexes:subset
                                    options:reverse ? NSEnumerationReverse : 0
                                 usingBlock:^(LMBoardItem *item, NSUInteger idx, BOOL *stop) {
@@ -340,12 +337,17 @@
                                         LMBoardItem *toFill = [fillQueue firstObject];
                                         [fillQueue removeObjectAtIndex:0];
                                         
+                                        LMBoardEvent *event = [[LMBoardEvent alloc] initWithFromItem:item toItem:toFill];
+                                        [moves addObject:event];
+                                        
                                         toFill.level = item.level;
                                         [item clear];
                                         
                                         [fillQueue addObject:item];
                                     }
                                 }];
+    
+    return moves;
 }
 
 - (NSUInteger)count

@@ -12,15 +12,21 @@ LMBoardItemLevel const LMBoardItemEmpty = 0;
 
 @interface LMBoardItem ()
 
+@property (nonatomic, assign) NSUInteger row;
+@property (nonatomic, assign) NSUInteger column;
+
 @end
 
 @implementation LMBoardItem
 
-- (instancetype)init
+- (instancetype)initWithRow:(NSUInteger)row column:(NSUInteger)column
 {
     self = [super init];
     if (self)
     {
+        self.row = row;
+        self.column = column;
+        
         [self clear];
     }
     return self;
@@ -69,7 +75,7 @@ LMBoardItemLevel const LMBoardItemEmpty = 0;
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"LMBoardItem: %@", [self isEmpty] ? @"Empty" : @(self.level)];
+    return [NSString stringWithFormat:@"LMBoardItem at (r%u, c%u): %@", self.row, self.column, [self isEmpty] ? @"Empty" : @(self.level)];
 }
 
 @end

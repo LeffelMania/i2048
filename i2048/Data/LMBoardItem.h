@@ -14,7 +14,11 @@ FOUNDATION_EXPORT LMBoardItemLevel const LMBoardItemEmpty;
 
 @interface LMBoardItem : NSObject
 
+@property (nonatomic, readonly) NSUInteger row;
+@property (nonatomic, readonly) NSUInteger column;
 @property (nonatomic, assign) LMBoardItemLevel level;
+
+- (instancetype)initWithRow:(NSUInteger)row column:(NSUInteger)column;
 
 - (BOOL)isEmpty;
 

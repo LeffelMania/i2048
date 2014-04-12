@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		AE352EEF18F90A0E007972B9 /* LMRandom.m in Sources */ = {isa = PBXBuildFile; fileRef = AE352EEE18F90A0E007972B9 /* LMRandom.m */; };
+		AE352EF218F9C1CF007972B9 /* LMShiftResult.m in Sources */ = {isa = PBXBuildFile; fileRef = AE352EF118F9C1CF007972B9 /* LMShiftResult.m */; };
 		AEBA4B4518F20FA8004E1FE0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEBA4B4418F20FA8004E1FE0 /* Foundation.framework */; };
 		AEBA4B4718F20FA8004E1FE0 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEBA4B4618F20FA8004E1FE0 /* CoreGraphics.framework */; };
 		AEBA4B4918F20FA8004E1FE0 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEBA4B4818F20FA8004E1FE0 /* UIKit.framework */; };
@@ -48,6 +49,8 @@
 /* Begin PBXFileReference section */
 		AE352EED18F90A0E007972B9 /* LMRandom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMRandom.h; sourceTree = "<group>"; };
 		AE352EEE18F90A0E007972B9 /* LMRandom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMRandom.m; sourceTree = "<group>"; };
+		AE352EF018F9C1CF007972B9 /* LMShiftResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMShiftResult.h; sourceTree = "<group>"; };
+		AE352EF118F9C1CF007972B9 /* LMShiftResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMShiftResult.m; sourceTree = "<group>"; };
 		AEBA4B4118F20FA8004E1FE0 /* i2048.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = i2048.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AEBA4B4418F20FA8004E1FE0 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		AEBA4B4618F20FA8004E1FE0 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -260,6 +263,8 @@
 				AEBA4B9218F2129E004E1FE0 /* LMGame.m */,
 				AE352EED18F90A0E007972B9 /* LMRandom.h */,
 				AE352EEE18F90A0E007972B9 /* LMRandom.m */,
+				AE352EF018F9C1CF007972B9 /* LMShiftResult.h */,
+				AE352EF118F9C1CF007972B9 /* LMShiftResult.m */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -441,6 +446,7 @@
 				AED09C0C18F504A9005160DC /* LMBoardItemView.m in Sources */,
 				AED09BFF18F50275005160DC /* LMGameViewController.m in Sources */,
 				AEBA4B9318F2129E004E1FE0 /* LMGame.m in Sources */,
+				AE352EF218F9C1CF007972B9 /* LMShiftResult.m in Sources */,
 				AED09C0518F502F2005160DC /* LMBoardView.m in Sources */,
 				AEBA4B9618F212B0004E1FE0 /* LMBoard.m in Sources */,
 				AEBA4B8B18F210CF004E1FE0 /* LMHomeViewController.m in Sources */,
