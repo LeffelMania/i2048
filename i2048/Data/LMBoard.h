@@ -10,8 +10,6 @@
 
 @class LMBoardItem;
 
-typedef BOOL(^LMBoardIterationBlock)(LMBoardItem *item);
-
 @interface LMBoard : NSObject
 
 @property (nonatomic, readonly) NSUInteger rowCount;
