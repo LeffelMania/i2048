@@ -14,6 +14,7 @@
 @interface LMBoardView : UIView
 
 @property (nonatomic, strong) LMBoard *board;
+@property (nonatomic, strong) UINib *itemLayoutNib;
 
 - (void)updateBoardWithNewItem:(LMBoardItem *)item;
 

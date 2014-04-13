@@ -10,42 +10,90 @@
 
 #import "LMBoardItem.h"
 
+static CGFloat const kPulseDuration = .25;
+static CGFloat const kPulseScale = 1.15;
+
 @interface LMBoardItemView ()
 
 @property (nonatomic, strong) IBOutlet UILabel *valueLabel;
+
+@property (nonatomic, assign) LMBoardItemLevel displayedLevel;
 
 @end
 
 @implementation LMBoardItemView
 
-- (void)dealloc
-{
-}
-
 - (void)awakeFromNib
 {
+    self.displayedLevel = -1;
 }
 
-- (void)setBoardItem:(LMBoardItem *)boardItem
-{
-    [self setBoardItem:boardItem animated:NO];
-}
+#pragma mark - Public Interface
 
-- (void)setBoardItem:(LMBoardItem *)item animated:(BOOL)animated
+- (void)setBoardItem:(LMBoardItem *)item
 {
     _boardItem = item;
     
-    [self refreshLevel];
+    [self refreshUiForCurrentLevel];
 }
 
-- (void)refreshLevel
+- (void)refreshUiForCurrentLevel
 {
-    [self refreshLevelAnimated:NO];
+    self.displayedLevel = self.boardItem.level;
+    
+    NSUInteger value = pow(2, self.boardItem.level + 1);
+    self.valueLabel.text = [NSString stringWithFormat:@"%i", value];
 }
 
-- (void)refreshLevelAnimated:(BOOL)animated
+- (void)willUpdateFromBoardShift
 {
-    self.valueLabel.text = [NSString stringWithFormat:@"%i", (self.boardItem.level + 1)];
+    if (self.displayedLevel == self.boardItem.level)
+    {
+        return;
+    }
+    
+    [self pulseUp];
+    [self refreshUiForCurrentLevel];
+}
+
+- (void)didUpdateFromBoardShift
+{
+    if (self.displayedLevel == self.boardItem.level)
+    {
+        return;
+    }
+    
+    [self pulseDown];
+}
+
+#pragma mark - Private Utility
+
+- (void)pulseUp
+{
+    CABasicAnimation *pulse = [self pulseAnimationFromScale:1.0f toScale:kPulseScale];
+    
+    [self.layer addAnimation:pulse forKey:@"pulseUp"];
+}
+
+- (void)pulseDown
+{
+    CABasicAnimation *pulse = [self pulseAnimationFromScale:kPulseScale toScale:1.0f];
+    
+    [self.layer addAnimation:pulse forKey:@"pulseDown"];
+}
+
+- (CABasicAnimation *)pulseAnimationFromScale:(CGFloat)fromScale toScale:(CGFloat)toScale
+{
+    CABasicAnimation *anim;
+    
+    anim = [CABasicAnimation animationWithKeyPath:@"transform.scale"];
+    anim.duration = (kPulseDuration / 2);
+    anim.autoreverses = NO;
+    anim.removedOnCompletion = NO;
+    anim.fromValue = [NSNumber numberWithFloat:fromScale];
+    anim.toValue = [NSNumber numberWithFloat:toScale];
+    
+    return anim;
 }
 
 @end

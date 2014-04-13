@@ -41,6 +41,8 @@ static CGFloat const kItemSpacing = 10;
     self.itemLayer = [[UIView alloc] initWithFrame:layerFrame];
     self.itemLayer.backgroundColor = [UIColor clearColor];
     [self addSubview:self.itemLayer];
+    
+    self.itemLayoutNib = [UINib nibWithNibName:@"LMBoardItemView" bundle:nil];
 }
 
 - (void)setBoard:(LMBoard *)board
@@ -93,8 +95,8 @@ static CGFloat const kItemSpacing = 10;
                                  item = item.parent;
                              }
                              
+                             [view willUpdateFromBoardShift];
                              [self moveView:view toRow:item.row column:item.column];
-                             
                          }
                      }
                      completion:^(BOOL finished) {
@@ -103,9 +105,10 @@ static CGFloat const kItemSpacing = 10;
                          {
                              [remove removeFromSuperview];
                          }
+                         
                          for (LMBoardItemView *view in self.itemLayer.subviews)
                          {
-                             [view refreshLevelAnimated:YES];
+                             [view didUpdateFromBoardShift];
                          }
                          
                          [self addBoardItem:newItem];
@@ -137,14 +140,7 @@ static CGFloat const kItemSpacing = 10;
 
 - (LMBoardItemView *)createViewForItem:(LMBoardItem *)item
 {
-    static UINib *nib = nil;
-    
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        nib = [UINib nibWithNibName:@"LMBoardItemView" bundle:nil];
-    });
-    
-    LMBoardItemView *view = [nib instantiateWithOwner:nil options:nil][0];
+    LMBoardItemView *view = [self.itemLayoutNib instantiateWithOwner:nil options:nil][0];
     view.boardItem = item;
     view.size = CGSizeMake(self.itemSize, self.itemSize);
     

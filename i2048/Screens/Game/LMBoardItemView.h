@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "LMBoardItem.h"
 
 @class LMBoardItem;
 
@@ -14,6 +15,9 @@
 
 @property (nonatomic, weak) LMBoardItem *boardItem;
 
-- (void)refreshLevelAnimated:(BOOL)animated;
+- (void)refreshUiForCurrentLevel;
+
+- (void)willUpdateFromBoardShift;
+- (void)didUpdateFromBoardShift;
 
 @end
