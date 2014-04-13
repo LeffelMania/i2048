@@ -63,7 +63,7 @@ static CGFloat const kItemSpacing = 10;
             [self.emptyLayer addSubview:emptyView];
             
             LMBoardItem *item = [self.board itemAtRow:row column:col];
-            if (![item isEmpty])
+            if (item)
             {
                 LMBoardItemView *itemView = [self createItemViewForItem:item];
                 [self moveView:itemView toRow:row column:col];

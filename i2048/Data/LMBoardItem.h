@@ -8,22 +8,23 @@
 
 #import <Foundation/Foundation.h>
 
-typedef NSInteger LMBoardItemLevel;
+typedef NSUInteger LMBoardItemLevel;
 
-FOUNDATION_EXPORT LMBoardItemLevel const LMBoardItemEmpty;
+#define LMBoardItemEmpty ([NSNull null])
 
 @interface LMBoardItem : NSObject
 
-@property (nonatomic, readonly) NSUInteger row;
-@property (nonatomic, readonly) NSUInteger column;
-@property (nonatomic, assign) LMBoardItemLevel level;
+@property (nonatomic, assign) NSUInteger row;
+@property (nonatomic, assign) NSUInteger column;
+@property (nonatomic, readonly) LMBoardItemLevel level;
+
+@property (nonatomic, readonly) LMBoardItem *parent;
+@property (nonatomic, readonly) BOOL isAlive;
 
 - (instancetype)initWithRow:(NSUInteger)row column:(NSUInteger)column;
+- (instancetype)initWithRow:(NSUInteger)row column:(NSUInteger)column level:(NSUInteger)level;
 
-- (BOOL)isEmpty;
-
-- (void)clear;
-- (LMBoardItemLevel)advance;
+- (void)mergeIntoParent:(LMBoardItem *)parent;
 
 - (BOOL)matches:(LMBoardItem *)otherItem;
 

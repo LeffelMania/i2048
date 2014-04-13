@@ -30,47 +30,44 @@
     XCTAssertNoThrow([self.item description], @"");
 }
 
-- (void)testInitializationIsEmpty
+- (void)testInitializedItemIsAlive
 {
-    XCTAssert([self.item isEmpty], @"Freshly initialized item was not empty");
+    XCTAssert([self.item isAlive], @"Item wasn't alive after initialization");
 }
 
 - (void)testDoesNotMatchNil
 {
-    self.item.level = 2;
     XCTAssert(![self.item matches:nil], @"Item matched nil");
 }
 
-- (void)testDoesNotMatchIfEmpty
+- (void)testMatchesReturnsTrueForEqualLevels
 {
-    XCTAssert(![self.item matches:self.item], @"Empty item matched itself");
-}
-
-- (void)testMatchesOnLevel
-{
-    self.item.level = 2;
-    
-    LMBoardItem *otherItem = [LMBoardItem new];
-    otherItem.level = self.item.level;
+    LMBoardItem *otherItem = [[LMBoardItem alloc] initWithRow:0 column:0 level:self.item.level];
     
     XCTAssert([self.item matches:otherItem], @"Item didn't match item with same level");
 }
 
-- (void)testClearMakesItemEmpty
+- (void)testMatchesReturnFalseForDifferentLevels
 {
-    self.item.level = 2;
-    [self.item clear];
+    LMBoardItem *otherItem = [[LMBoardItem alloc] initWithRow:0 column:0 level:self.item.level + 1];
     
-    XCTAssert([self.item isEmpty], @"Item was not empty after clear");
+    XCTAssert(![self.item matches:otherItem], @"Item matched item with different level");
 }
 
-- (void)testAdvance
+- (void)testMergeIntoParentKillsObject
 {
-    NSUInteger level = [self.item advance];
-    XCTAssert(level == 1, @"Level should have been 1 after advance");
+    LMBoardItem *otherItem = [[LMBoardItem alloc] initWithRow:0 column:0];
+    [self.item mergeIntoParent:otherItem];
     
-    level = [self.item advance];
-    XCTAssert(level == 2, @"Level should have been 2 after advance");
+    XCTAssert(![self.item isAlive], @"Item was alive after merge into parent");
+}
+
+- (void)testMergeIntoParentIncreasesParentLevel
+{
+    LMBoardItem *otherItem = [[LMBoardItem alloc] initWithRow:0 column:0 level:1];
+    [self.item mergeIntoParent:otherItem];
+    
+    XCTAssert(otherItem.level == 2, @"Parent level did not increase after merge");
 }
 
 @end

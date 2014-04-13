@@ -45,14 +45,7 @@
 
 - (void)refreshLevelAnimated:(BOOL)animated
 {
-    if ([self.boardItem isEmpty])
-    {
-        self.valueLabel.text = @"";
-    }
-    else
-    {
-        self.valueLabel.text = [NSString stringWithFormat:@"%i", self.boardItem.level];
-    }
+    self.valueLabel.text = [NSString stringWithFormat:@"%i", (self.boardItem.level + 1)];
 }
 
 @end

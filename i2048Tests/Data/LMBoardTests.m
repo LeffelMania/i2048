@@ -11,6 +11,14 @@
 #import "LMBoard.h"
 #import "LMBoardItem.h"
 
+static LMBoardItemLevel kEmpty = 1234;
+
+@interface LMBoard (Testing)
+
+- (void)setItem:(id)item atRow:(NSUInteger)row column:(NSUInteger)col;
+
+@end
+
 @interface LMBoardTests : XCTestCase
 
 @end
@@ -28,15 +36,23 @@
 
 - (void)loadBoard:(LMBoard *)board withValues:(LMBoardItemLevel *)values
 {
-    NSUInteger index = 0;
-    for (NSUInteger row = 0; row < board.rowCount; row++)
+    NSUInteger count = board.rowCount * board.columnCount;
+    for (NSUInteger index = 0; index < count; index++)
     {
-        for (NSUInteger col = 0; col < board.columnCount; col++)
+        NSUInteger row = index / board.columnCount;
+        NSUInteger col = index % board.columnCount;
+        
+        if (values[index] == kEmpty)
         {
-            LMBoardItem *item = [board itemAtRow:row column:col];
-            item.level = values[index];
+            [board setItem:LMBoardItemEmpty atRow:row column:col];
+        }
+        else
+        {
+            NSUInteger row = index / board.columnCount;
+            NSUInteger col = index % board.columnCount;
             
-            index++;
+            LMBoardItem *item = [[LMBoardItem alloc] initWithRow:row column:col level:values[index]];
+            [board setItem:item atRow:row column:col];
         }
     }
 }
@@ -50,7 +66,16 @@
         {
             LMBoardItem *item = [board itemAtRow:row column:col];
 
-            XCTAssert(item.level == values[index], @"Item at %u, %u expected to be %u, was %u", row, col, values[index], item.level);
+            if (values[index] == kEmpty)
+            {
+                XCTAssert(item == nil, @"Item at %u, %u expected to be nil", row, col);
+            }
+            else
+            {
+                XCTAssert(item.row == row, @"Item expected to be at row %u, was at %u", item.row, row);
+                XCTAssert(item.column == col, @"Item expected to be at column %u, was at %u", item.column, col);
+                XCTAssert(item.level == values[index], @"Item at %u, %u expected to be %u, was %u", row, col, values[index], item.level);
+            }
             
             index++;
         }
@@ -61,7 +86,7 @@
 {
     LMBoardItemLevel values[4] = {
         1, 2,
-        3, 4
+        3, kEmpty
     };
     LMBoard *board = [self boardWithRows:2 columns:2 values:values];
     
@@ -81,6 +106,11 @@
     
     item = [board itemAtRow:0 column:1000];
     XCTAssert(item == nil, @"Out-of-bounds column item wasn't nil");
+    
+    board.numberOfShiftsPerSeed = 1;
+    [board shiftDown];
+    item = [board itemAtRow:0 column:0];
+    XCTAssert(item.level == 4, @"Shift of full board altered board");
 }
 
 - (void)testIndexItemFetch
@@ -115,7 +145,7 @@
 {
     LMBoardItemLevel values[2] = {
         1,
-        LMBoardItemEmpty,
+        kEmpty,
     };
     LMBoard *board = [self boardWithRows:2 columns:1 values:values];
     
@@ -125,8 +155,8 @@
 - (void)testCanShiftUpReturnsFalseWhenUnfilledColumnIsEmpty
 {
     LMBoardItemLevel values[4] = {
-        1, LMBoardItemEmpty,
-        3, LMBoardItemEmpty
+        1, kEmpty,
+        3, kEmpty
     };
     LMBoard *board = [self boardWithRows:2 columns:2 values:values];
     
@@ -136,7 +166,7 @@
 - (void)testCanShiftUpReturnsTrue
 {
     LMBoardItemLevel values[2] = {
-        LMBoardItemEmpty,
+        kEmpty,
         1
     };
     LMBoard *board = [self boardWithRows:2 columns:1 values:values];
@@ -147,8 +177,8 @@
 - (void)testShiftUpMovesItemValues
 {
     LMBoardItemLevel values[4] = {
-        LMBoardItemEmpty,
-        LMBoardItemEmpty,
+        kEmpty,
+        kEmpty,
         1,
         2,
     };
@@ -159,8 +189,8 @@
     LMBoardItemLevel result[4] = {
         1,
         2,
-        LMBoardItemEmpty,
-        LMBoardItemEmpty
+        kEmpty,
+        kEmpty
     };
     
     [self assertBoard:board hasValues:result];
@@ -170,7 +200,7 @@
 {
     LMBoardItemLevel values[4] = {
         1,
-        LMBoardItemEmpty,
+        kEmpty,
         1,
         3
     };
@@ -181,8 +211,8 @@
     LMBoardItemLevel result[4] = {
         2,
         3,
-        LMBoardItemEmpty,
-        LMBoardItemEmpty
+        kEmpty,
+        kEmpty
     };
     
     [self assertBoard:board hasValues:result];
@@ -191,7 +221,7 @@
 - (void)testShiftUpInsertsNewItem
 {
     LMBoardItemLevel values[4] = {
-        1, LMBoardItemEmpty,
+        1, kEmpty,
         3, 4
     };
     
@@ -202,7 +232,7 @@
     
     LMBoardItemLevel result[4] = {
         1, 4,
-        3, 1
+        3, 0
     };
     
     [self assertBoard:board hasValues:result];
@@ -213,7 +243,7 @@
 - (void)testCanShiftDownReturnsFalseWhenBottomRowIsFull
 {
     LMBoardItemLevel values[2] = {
-        LMBoardItemEmpty,
+        kEmpty,
         1
     };
     LMBoard *board = [self boardWithRows:2 columns:1 values:values];
@@ -224,8 +254,8 @@
 - (void)testCanShiftDownReturnsFalseWhenUnfilledColumnIsEmpty
 {
     LMBoardItemLevel values[4] = {
-        1, LMBoardItemEmpty,
-        3, LMBoardItemEmpty
+        1, kEmpty,
+        3, kEmpty
     };
     LMBoard *board = [self boardWithRows:2 columns:2 values:values];
     
@@ -236,7 +266,7 @@
 {
     LMBoardItemLevel values[2] = {
         1,
-        LMBoardItemEmpty
+        kEmpty
     };
     LMBoard *board = [self boardWithRows:2 columns:1 values:values];
     
@@ -248,16 +278,16 @@
     LMBoardItemLevel values[4] = {
         2,
         3,
-        LMBoardItemEmpty,
-        LMBoardItemEmpty
+        kEmpty,
+        kEmpty
     };
     LMBoard *board = [self boardWithRows:4 columns:1 values:values];
     
     [board shiftDown];
     
     LMBoardItemLevel result[4] = {
-        LMBoardItemEmpty,
-        LMBoardItemEmpty,
+        kEmpty,
+        kEmpty,
         2,
         3
     };
@@ -278,8 +308,8 @@
     [board shiftDown];
     
     LMBoardItemLevel result[4] = {
-        LMBoardItemEmpty,
-        LMBoardItemEmpty,
+        kEmpty,
+        kEmpty,
         2,
         2
     };
@@ -291,7 +321,7 @@
 {
     LMBoardItemLevel values[4] = {
         1, 2,
-        3, LMBoardItemEmpty
+        3, kEmpty
     };
     
     LMBoard *board = [self boardWithRows:2 columns:2 values:values];
@@ -300,7 +330,7 @@
     [board shiftDown];
     
     LMBoardItemLevel result[4] = {
-        1, 1,
+        1, 0,
         3, 2
     };
     
@@ -312,8 +342,8 @@
 - (void)testCanShiftLeftReturnsFalseWhenFirstColumnIsFull
 {
     LMBoardItemLevel values[4] = {
-        1, LMBoardItemEmpty,
-        2, LMBoardItemEmpty
+        1, kEmpty,
+        2, kEmpty
     };
     
     LMBoard *board = [self boardWithRows:2 columns:2 values:values];
@@ -325,8 +355,8 @@
 {
     
     LMBoardItemLevel values[4] = {
-        LMBoardItemEmpty, LMBoardItemEmpty,
-        1, LMBoardItemEmpty
+        kEmpty, kEmpty,
+        1, kEmpty
     };
     
     LMBoard *board = [self boardWithRows:2 columns:2 values:values];
@@ -338,7 +368,7 @@
 {
     
     LMBoardItemLevel values[4] = {
-        LMBoardItemEmpty, 1,
+        kEmpty, 1,
         2, 3
     };
     
@@ -350,7 +380,7 @@
 - (void)testShiftLeftMovesItemValues
 {
     LMBoardItemLevel values[4] = {
-        1, LMBoardItemEmpty, 2, 1
+        1, kEmpty, 2, 1
     };
     
     LMBoard *board = [self boardWithRows:1 columns:4 values:values];
@@ -358,7 +388,7 @@
     [board shiftLeft];
     
     LMBoardItemLevel result[4] = {
-        1, 2, 1, LMBoardItemEmpty
+        1, 2, 1, kEmpty
     };
     
     [self assertBoard:board hasValues:result];
@@ -375,7 +405,7 @@
     [board shiftLeft];
     
     LMBoardItemLevel result[4] = {
-        2, 3, LMBoardItemEmpty, LMBoardItemEmpty
+        2, 3, kEmpty, kEmpty
     };
     
     [self assertBoard:board hasValues:result];
@@ -384,7 +414,7 @@
 - (void)testShiftLeftInsertsNewItem
 {
     LMBoardItemLevel values[4] = {
-        1, LMBoardItemEmpty, 2, 1
+        1, kEmpty, 2, 1
     };
     
     LMBoard *board = [self boardWithRows:1 columns:4 values:values];
@@ -393,7 +423,7 @@
     [board shiftLeft];
     
     LMBoardItemLevel result[4] = {
-        1, 2, 1, 1
+        1, 2, 1, 0
     };
     
     [self assertBoard:board hasValues:result];
@@ -404,8 +434,8 @@
 - (void)testCanShiftRightReturnsFalseWhenLastColumnIsFull
 {
     LMBoardItemLevel values[4] = {
-        LMBoardItemEmpty, 1,
-        LMBoardItemEmpty, 2
+        kEmpty, 1,
+        kEmpty, 2
     };
     
     LMBoard *board = [self boardWithRows:2 columns:2 values:values];
@@ -416,8 +446,8 @@
 - (void)testCanShiftRightReturnsFalseWhenUnfilledRowIsEmpty
 {
     LMBoardItemLevel values[4] = {
-        LMBoardItemEmpty, LMBoardItemEmpty,
-        LMBoardItemEmpty, 2
+        kEmpty, kEmpty,
+        kEmpty, 2
     };
     
     LMBoard *board = [self boardWithRows:2 columns:2 values:values];
@@ -428,7 +458,7 @@
 - (void)testCanShiftRightReturnsTrue
 {
     LMBoardItemLevel values[4] = {
-        1, LMBoardItemEmpty,
+        1, kEmpty,
         2, 3
     };
     
@@ -440,14 +470,14 @@
 - (void)testShiftRightMovesItemValues
 {
     LMBoardItemLevel values[4] = {
-        1, 2, LMBoardItemEmpty, 1,
+        1, 2, kEmpty, 1,
     };
     
     LMBoard *board = [self boardWithRows:1 columns:4 values:values];
     [board shiftRight];
     
     LMBoardItemLevel result[4] = {
-        LMBoardItemEmpty, 1, 2, 1
+        kEmpty, 1, 2, 1
     };
     
     [self assertBoard:board hasValues:result];
@@ -463,7 +493,7 @@
     [board shiftRight];
     
     LMBoardItemLevel result[4] = {
-        LMBoardItemEmpty, LMBoardItemEmpty, 3, 2
+        kEmpty, kEmpty, 3, 2
     };
     
     [self assertBoard:board hasValues:result];
@@ -472,7 +502,7 @@
 - (void)testShiftRightInsertsNewItem
 {
     LMBoardItemLevel values[4] = {
-        1, LMBoardItemEmpty, 2, 1,
+        1, kEmpty, 2, 1,
     };
     
     LMBoard *board = [self boardWithRows:1 columns:4 values:values];
@@ -481,7 +511,7 @@
     [board shiftRight];
     
     LMBoardItemLevel result[4] = {
-        1, 1, 2, 1
+        0, 1, 2, 1
     };
     
     [self assertBoard:board hasValues:result];
@@ -499,7 +529,7 @@
 - (void)testHasMatchesReturnsFalseForFilledBoard
 {
     LMBoardItemLevel values[4] = {
-        1, LMBoardItemEmpty,
+        1, kEmpty,
         2, 3
     };
     
@@ -549,7 +579,7 @@
 - (void)testIsFullReturnsFalseWhenCellIsEmpty
 {
     LMBoardItemLevel values[4] = {
-        1, LMBoardItemEmpty,
+        1, kEmpty,
         2, 3
     };
     
