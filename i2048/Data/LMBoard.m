@@ -281,9 +281,9 @@
         [moves addObjectsFromArray:[self shiftIndexes:itemSet reverse:reverse]];
     }
     
-    [self addSeedFromShift];
+    LMBoardItem *addition = [self addSeedFromShift];
     
-    return [[LMShiftResult alloc] initWithMatches:matches moves:moves];
+    return [[LMShiftResult alloc] initWithMatches:matches moves:moves addition:addition];
 }
 
 - (NSArray *)consolidateIndexes:(NSIndexSet *)subset reverse:(BOOL)reverse
@@ -355,18 +355,20 @@
     return (self.rowCount * self.columnCount);
 }
 
-- (void)addSeedFromShift
+- (LMBoardItem *)addSeedFromShift
 {
     self.shiftsSinceLastSeed++;
     
     if (self.shiftsSinceLastSeed >= self.numberOfShiftsPerSeed)
     {
         self.shiftsSinceLastSeed = 0;
-        [self insertNewItem];
+        return [self insertNewItem];
     }
+    
+    return nil;
 }
 
-- (void)insertNewItem
+- (LMBoardItem *)insertNewItem
 {
     NSUInteger start = [LMRandom nextInteger:[self count]];
     
@@ -380,12 +382,14 @@
         if ([item isEmpty])
         {
             [item advance];
-            return;
+            return item;
         }
         
         index = (index + 1) % [self count];
     }
     while (index != start);
+    
+    return nil;
 }
 
 - (NSString *)description

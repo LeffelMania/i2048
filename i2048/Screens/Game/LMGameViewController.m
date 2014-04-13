@@ -11,6 +11,7 @@
 #import "LMBoardView.h"
 
 #import "LMBoard.h"
+#import "LMShiftResult.h"
 
 @interface LMGameViewController ()
 
@@ -41,22 +42,26 @@
 
 - (IBAction)pressedLeft:(id)sender
 {
-    [self.board shiftLeft];
+    LMShiftResult *result = [self.board shiftLeft];
+    [self.boardView updateWithShiftResult:result];
 }
 
 - (IBAction)pressedRight:(id)sender
 {
-    [self.board shiftRight];
+    LMShiftResult *result = [self.board shiftRight];
+    [self.boardView updateWithShiftResult:result];
 }
 
 - (IBAction)pressedUp:(id)sender
 {
-    [self.board shiftUp];
+    LMShiftResult *result = [self.board shiftUp];
+    [self.boardView updateWithShiftResult:result];
 }
 
 - (IBAction)pressedDown:(id)sender
 {
-    [self.board shiftDown];
+    LMShiftResult *result = [self.board shiftDown];
+    [self.boardView updateWithShiftResult:result];
 }
 
 @end

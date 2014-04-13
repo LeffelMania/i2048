@@ -7,30 +7,33 @@
 //
 
 #import "LMShiftResult.h"
+#import "LMBoardItem.h"
 
 @interface LMShiftResult ()
 
 @property (nonatomic, strong) NSArray *matches;
 @property (nonatomic, strong) NSArray *moves;
+@property (nonatomic, strong) LMBoardItem *addition;
 
 @end
 
 @implementation LMShiftResult
 
-- (instancetype)initWithMatches:(NSArray *)matches moves:(NSArray *)moves
+- (instancetype)initWithMatches:(NSArray *)matches moves:(NSArray *)moves addition:(LMBoardItem *)addition
 {
     self = [super init];
     if (self)
     {
         self.matches = matches;
         self.moves = moves;
+        self.addition = addition;
     }
     return self;
 }
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"LMShiftResult: Matches:{\n%@}\nMoves:{\n%@}", self.matches, self.moves];
+    return [NSString stringWithFormat:@"LMShiftResult: Matches:{\n%@}\nMoves:{\n%@}\nAddition:{\n%@\n}", self.matches, self.moves, self.addition];
 }
 
 @end
@@ -57,7 +60,7 @@
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"LMBoardEvent: from (%@) to (%@)", self.fromItem, self.toItem];
+    return [NSString stringWithFormat:@"LMBoardEvent: from (r%u, c%u) to (r%u, c%u)", self.fromItem.row, self.fromItem.column, self.toItem.row, self.toItem.column];
 }
 
 @end

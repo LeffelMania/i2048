@@ -20,12 +20,10 @@
 
 - (void)dealloc
 {
-    [self stopListeningToLevel];
 }
 
 - (void)awakeFromNib
 {
-    
 }
 
 - (void)setBoardItem:(LMBoardItem *)boardItem
@@ -35,15 +33,17 @@
 
 - (void)setBoardItem:(LMBoardItem *)item animated:(BOOL)animated
 {
-    [self stopListeningToLevel];
-    
     _boardItem = item;
-    [self.boardItem addObserver:self forKeyPath:@"level" options:NSKeyValueObservingOptionNew context:NULL];
     
     [self refreshLevel];
 }
 
 - (void)refreshLevel
+{
+    [self refreshLevelAnimated:NO];
+}
+
+- (void)refreshLevelAnimated:(BOOL)animated
 {
     if ([self.boardItem isEmpty])
     {
@@ -52,22 +52,6 @@
     else
     {
         self.valueLabel.text = [NSString stringWithFormat:@"%i", self.boardItem.level];
-    }
-}
-
-- (void)stopListeningToLevel
-{
-    if (self.boardItem)
-    {
-        [self.boardItem removeObserver:self forKeyPath:@"level"];
-    }
-}
-
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
-{
-    if ([keyPath isEqualToString:@"level"])
-    {
-        [self refreshLevel];
     }
 }
 

@@ -14,6 +14,6 @@
 
 @property (nonatomic, weak) LMBoardItem *boardItem;
 
-- (void)setBoardItem:(LMBoardItem *)item animated:(BOOL)animated;
+- (void)refreshLevelAnimated:(BOOL)animated;
 
 @end

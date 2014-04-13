@@ -15,8 +15,9 @@
 
 @property (nonatomic, readonly) NSArray *matches;
 @property (nonatomic, readonly) NSArray *moves;
+@property (nonatomic, readonly) LMBoardItem *addition;
 
-- (instancetype)initWithMatches:(NSArray *)matches moves:(NSArray *)moves;
+- (instancetype)initWithMatches:(NSArray *)matches moves:(NSArray *)moves addition:(LMBoardItem *)addition;
 
 @end
 
