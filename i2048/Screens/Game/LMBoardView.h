@@ -9,12 +9,12 @@
 #import <UIKit/UIKit.h>
 
 @class LMBoard;
-@class LMShiftResult;
+@class LMBoardItem;
 
 @interface LMBoardView : UIView
 
 @property (nonatomic, strong) LMBoard *board;
 
-- (void)updateWithShiftResult:(LMShiftResult *)shift;
+- (void)updateBoardWithNewItem:(LMBoardItem *)item;
 
 @end

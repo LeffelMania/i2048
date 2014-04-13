@@ -9,7 +9,6 @@
 #import "LMBoard.h"
 
 #import "LMBoardItem.h"
-#import "LMShiftResult.h"
 #import "LMRandom.h"
 
 @interface LMBoard ()
@@ -168,22 +167,22 @@
 
 #pragma mark Shift Actions
 
-- (LMShiftResult *)shiftUp
+- (LMBoardItem *)shiftUp
 {
     return [self shiftBoardByRows:YES reverse:NO];
 }
 
-- (LMShiftResult *)shiftDown
+- (LMBoardItem *)shiftDown
 {
     return [self shiftBoardByRows:YES reverse:YES];
 }
 
-- (LMShiftResult *)shiftLeft
+- (LMBoardItem *)shiftLeft
 {
     return [self shiftBoardByRows:NO reverse:NO];
 }
 
-- (LMShiftResult *)shiftRight
+- (LMBoardItem *)shiftRight
 {
     return [self shiftBoardByRows:NO reverse:YES];
 }
@@ -268,60 +267,23 @@
     return result;
 }
 
-- (LMShiftResult *)shiftBoardByRows:(BOOL)rows reverse:(BOOL)reverse
+- (LMBoardItem *)shiftBoardByRows:(BOOL)rows reverse:(BOOL)reverse
 {
-    NSMutableArray *moves = [NSMutableArray array];
-    NSMutableArray *matches = [NSMutableArray array];
-    
     NSUInteger count = rows ? self.columnCount : self.rowCount;
     
     for (NSUInteger i = 0; i < count; i++)
     {
         NSIndexSet *itemSet = rows ? [self indexSetForColumn:i] : [self indexSetForRow:i];
         
-        [matches addObjectsFromArray:[self consolidateIndexes:itemSet reverse:reverse]];
-        [moves addObjectsFromArray:[self shiftIndexes:itemSet reverse:reverse]];
+        [self consolidateIndexes:itemSet reverse:reverse];
     }
     
-    LMBoardItem *addition = [self addSeedFromShift];
-    
-    return [[LMShiftResult alloc] initWithMatches:matches moves:moves addition:addition];
+    return [self addSeedFromShift];
 }
 
-- (NSArray *)consolidateIndexes:(NSIndexSet *)subset reverse:(BOOL)reverse
+- (void)consolidateIndexes:(NSIndexSet *)subset reverse:(BOOL)reverse
 {
-    NSMutableArray *matches = [NSMutableArray array];
-    
     __block LMBoardItem *toMatch = nil;
-    [subset enumerateIndexesWithOptions:reverse ? NSEnumerationReverse : 0
-                             usingBlock:^(NSUInteger idx, BOOL *stop) {
-                                 
-                                 if (self.values[idx] == LMBoardItemEmpty)
-                                 {
-                                     return;
-                                 }
-                                 
-                                 LMBoardItem *item = self.values[idx];
-                                 
-                                 if (!toMatch || ![item matches:toMatch])
-                                 {
-                                     toMatch = item;
-                                 }
-                                 else if ([item matches:toMatch])
-                                 {
-                                     [item mergeIntoParent:toMatch];
-                                     self.values[idx] = LMBoardItemEmpty;
-                                     
-                                     toMatch = nil;
-                                 }
-                             }];
-    
-    return matches;
-}
-
-- (NSArray *)shiftIndexes:(NSIndexSet *)subset reverse:(BOOL)reverse
-{
-    NSMutableArray *moves = [NSMutableArray array];
     NSMutableArray *fillQueue = [NSMutableArray array];
     
     [subset enumerateIndexesWithOptions:reverse ? NSEnumerationReverse : 0
@@ -335,6 +297,19 @@
                                  
                                  LMBoardItem *item = self.values[idx];
                                  
+                                 if (toMatch && [item matches:toMatch])
+                                 {
+                                     [item mergeIntoParent:toMatch];
+                                     self.values[idx] = LMBoardItemEmpty;
+                                     
+                                     [fillQueue addObject:@(idx)];
+                                     
+                                     toMatch = nil;
+                                     return;
+                                 }
+                                 
+                                 toMatch = item;
+                                 
                                  if ([fillQueue count] > 0)
                                  {
                                      NSUInteger fillIndex = [[fillQueue firstObject] unsignedIntegerValue];
@@ -345,8 +320,6 @@
                                      [fillQueue addObject:@(idx)];
                                  }
                              }];
-    
-    return moves;
 }
 
 - (void)moveItem:(LMBoardItem *)item fromIndex:(NSUInteger)from toIndex:(NSUInteger)to
