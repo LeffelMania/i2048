@@ -8,18 +8,28 @@
 
 #import "LMBoardItem.h"
 
-LMBoardItemLevel const LMBoardItemEmpty = 0;
-
 @interface LMBoardItem ()
 
-@property (nonatomic, assign) NSUInteger row;
-@property (nonatomic, assign) NSUInteger column;
+@property (nonatomic, strong) LMBoardItem *parent;
+@property (nonatomic, assign) BOOL isAlive;
+
+@property (nonatomic, strong) NSMutableArray *children;
 
 @end
 
 @implementation LMBoardItem
 
+- (instancetype)init
+{
+    return [self initWithRow:0 column:0];
+}
+
 - (instancetype)initWithRow:(NSUInteger)row column:(NSUInteger)column
+{
+    return [self initWithRow:row column:column level:0];
+}
+
+- (instancetype)initWithRow:(NSUInteger)row column:(NSUInteger)column level:(NSUInteger)level
 {
     self = [super init];
     if (self)
@@ -27,35 +37,32 @@ LMBoardItemLevel const LMBoardItemEmpty = 0;
         self.row = row;
         self.column = column;
         
-        [self clear];
+        self.children = [NSMutableArray array];
+        
+        for (NSUInteger i = 0; i < level; i++)
+        {
+            LMBoardItem *child = [[LMBoardItem alloc] initWithRow:row column:column];
+            [self.children addObject:child];
+        }
+        
+        self.isAlive = YES;
     }
     return self;
 }
 
 #pragma mark - Public Interface
 
-- (BOOL)isEmpty
+- (LMBoardItemLevel)level
 {
-    return self.level == LMBoardItemEmpty;
+    return [self.children count];
 }
 
-- (void)clear
+- (void)mergeIntoParent:(LMBoardItem *)parent
 {
-    self.level = LMBoardItemEmpty;
-}
-
-- (LMBoardItemLevel)advance
-{
-    if (self.level == LMBoardItemEmpty)
-    {
-        self.level = 1;
-    }
-    else
-    {
-        self.level++;
-    }
+    [parent.children addObject:self];
     
-    return self.level;
+    self.parent = parent;
+    self.isAlive = NO;
 }
 
 - (BOOL)matches:(LMBoardItem *)otherItem
@@ -65,17 +72,12 @@ LMBoardItemLevel const LMBoardItemEmpty = 0;
         return NO;
     }
     
-    if ([self isEmpty])
-    {
-        return NO;
-    }
-    
     return self.level == otherItem.level;
 }
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"LMBoardItem at (r%u, c%u): %@", self.row, self.column, [self isEmpty] ? @"Empty" : @(self.level)];
+    return [NSString stringWithFormat:@"LMBoardItem at (r%u, c%u): %@", self.row, self.column, @(self.level)];
 }
 
 @end

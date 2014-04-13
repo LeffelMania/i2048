@@ -10,9 +10,10 @@
 
 #import "LMBoard.h"
 #import "LMBoardItem.h"
-#import "LMShiftResult.h"
 
 #import "LMBoardItemView.h"
+
+#import "UIView+FrameUtil.h"
 
 static CGFloat const kItemSpacing = 10;
 
@@ -44,6 +45,11 @@ static CGFloat const kItemSpacing = 10;
 
 - (void)setBoard:(LMBoard *)board
 {
+    for (UIView *view in self.emptyLayer.subviews)
+    {
+        [view removeFromSuperview];
+    }
+    
     for (LMBoardItemView *view in self.itemLayer.subviews)
     {
         [view removeFromSuperview];
@@ -63,82 +69,47 @@ static CGFloat const kItemSpacing = 10;
             [self.emptyLayer addSubview:emptyView];
             
             LMBoardItem *item = [self.board itemAtRow:row column:col];
-            if (![item isEmpty])
-            {
-                LMBoardItemView *itemView = [self createItemViewForItem:item];
-                [self moveView:itemView toRow:row column:col];
-                
-                [self.itemLayer addSubview:itemView];
-            }
+            [self addBoardItem:item];
         }
     }
 }
 
-- (void)updateWithShiftResult:(LMShiftResult *)shift
+- (void)updateBoardWithNewItem:(LMBoardItem *)newItem
 {
-    NSLog(@"Updating from shift: %@", shift);
-    
     NSMutableArray *toRemove = [NSMutableArray array];
-    NSMutableArray *toAdvance = [NSMutableArray array];
     
-    [UIView animateWithDuration:.25 animations:^{
-        
-        for (LMBoardEvent *event in shift.moves)
-        {
-            LMBoardItemView *view = [self itemViewForItem:event.fromItem];
-            
-            if (view)
-            {
-                LMBoardItem *to = event.toItem;
-                [self moveView:view toRow:to.row column:to.column];
-                
-                view.boardItem = to;
-            }
-            else
-            {
-                NSLog(@"DIDN'T FIND VIEW!");
-            }
-        }
-        
-        for (LMBoardEvent *event in shift.matches)
-        {
-            LMBoardItemView *fromView = [self itemViewForItem:event.fromItem];
-            LMBoardItemView *toView = [self itemViewForItem:event.toItem];
-            
-            if (fromView && toView)
-            {
-                fromView.frame = toView.frame;
-                fromView.alpha = 0;
-                [toRemove addObject:fromView];
-                
-                [toAdvance addObject:toView];
-            }
-            else
-            {
-                NSLog(@"DIDN'T FIND VIEWS!");
-            }
-        }
-        
-    } completion:^(BOOL finished) {
-        
-        if (shift.addition)
-        {
-            LMBoardItemView *newItem = [self createItemViewForItem:shift.addition];
-            
-            [self.itemLayer addSubview:newItem];
-            [self moveView:newItem toRow:shift.addition.row column:shift.addition.column];
-        }
-        
-        for (UIView *remove in toRemove)
-        {
-            [remove removeFromSuperview];
-        }
-        
-        for (LMBoardItemView *advance in toAdvance)
-        {
-            [advance refreshLevelAnimated:YES];
-        }
-    }];
+    [UIView animateWithDuration:.25
+                     animations:^{
+                         
+                         for (LMBoardItemView *view in self.itemLayer.subviews)
+                         {
+                             LMBoardItem *item = view.boardItem;
+                             
+                             if (![item isAlive])
+                             {
+                                 view.alpha = 0;
+                                 [toRemove addObject:view];
+                                 
+                                 item = item.parent;
+                             }
+                             
+                             [self moveView:view toRow:item.row column:item.column];
+                             
+                         }
+                     }
+                     completion:^(BOOL finished) {
+                         
+                         for (UIView *remove in toRemove)
+                         {
+                             [remove removeFromSuperview];
+                         }
+                         for (LMBoardItemView *view in self.itemLayer.subviews)
+                         {
+                             [view refreshLevelAnimated:YES];
+                         }
+                         
+                         [self addBoardItem:newItem];
+                     }];
 }
 
 #pragma mark - Private Utility
@@ -153,7 +124,18 @@ static CGFloat const kItemSpacing = 10;
     return emptyView;
 }
 
-- (LMBoardItemView *)createItemViewForItem:(LMBoardItem *)item
+- (void)addBoardItem:(LMBoardItem *)item
+{
+    if (item)
+    {
+        LMBoardItemView *itemView = [self createViewForItem:item];
+        [self moveView:itemView toRow:item.row column:item.column];
+        
+        [self.itemLayer addSubview:itemView];
+    }
+}
+
+- (LMBoardItemView *)createViewForItem:(LMBoardItem *)item
 {
     static UINib *nib = nil;
     
@@ -164,35 +146,31 @@ static CGFloat const kItemSpacing = 10;
     
     LMBoardItemView *view = [nib instantiateWithOwner:nil options:nil][0];
     view.boardItem = item;
-    view.frame = CGRectMake(0, 0, self.itemSize, self.itemSize);
+    view.size = CGSizeMake(self.itemSize, self.itemSize);
     
     return view;
 }
 
-- (LMBoardItemView *)itemViewForItem:(LMBoardItem *)match
+- (LMBoardItemView *)viewForItem:(LMBoardItem *)item
 {
-    for (LMBoardItemView *itemView in self.itemLayer.subviews)
+    for (LMBoardItemView *view in self.itemLayer.subviews)
     {
-        LMBoardItem *item = itemView.boardItem;
-        
-        if (item.row == match.row && item.column == match.column)
+        if ([view.boardItem isEqual:item])
         {
-            return itemView;
+            return view;
         }
     }
     
+    NSAssert(NO, @"Didn't find view for item: %@", item);
     return nil;
 }
 
 - (void)moveView:(UIView *)view toRow:(NSUInteger)row column:(NSUInteger)col
 {
-    CGFloat x = kItemSpacing + (col * (view.frame.size.height + kItemSpacing));
-    CGFloat y = kItemSpacing + (row * (view.frame.size.width + kItemSpacing));
+    CGFloat x = kItemSpacing + (col * (view.width + kItemSpacing));
+    CGFloat y = kItemSpacing + (row * (view.height + kItemSpacing));
     
-    view.frame = CGRectMake(x,
-                            y,
-                            view.frame.size.width,
-                            view.frame.size.height);
+    view.origin = CGPointMake(x, y);
 }
 
 @end

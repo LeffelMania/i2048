@@ -9,7 +9,6 @@
 #import <Foundation/Foundation.h>
 
 @class LMBoardItem;
-@class LMShiftResult;
 
 @interface LMBoard : NSObject
 
@@ -28,10 +27,10 @@
 - (BOOL)canShiftLeft;
 - (BOOL)canShiftRight;
 
-- (LMShiftResult *)shiftUp;
-- (LMShiftResult *)shiftDown;
-- (LMShiftResult *)shiftLeft;
-- (LMShiftResult *)shiftRight;
+- (LMBoardItem *)shiftUp;
+- (LMBoardItem *)shiftDown;
+- (LMBoardItem *)shiftLeft;
+- (LMBoardItem *)shiftRight;
 
 - (BOOL)isFull;
 - (BOOL)hasMatches;
