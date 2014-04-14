@@ -181,8 +181,8 @@ static CGFloat const kItemSpacing = 10;
 
 - (void)moveView:(UIView *)view toRow:(NSUInteger)row column:(NSUInteger)col
 {
-    CGFloat x = kItemSpacing + (col * (view.width + kItemSpacing));
-    CGFloat y = kItemSpacing + (row * (view.height + kItemSpacing));
+    CGFloat x = kItemSpacing + (col * (self.itemSize + kItemSpacing));
+    CGFloat y = kItemSpacing + (row * (self.itemSize + kItemSpacing));
     
     view.origin = CGPointMake(x, y);
 }
