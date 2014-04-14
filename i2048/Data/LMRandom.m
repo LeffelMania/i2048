@@ -15,4 +15,17 @@
     return arc4random_uniform(upperBoundExclusive);
 }
 
++ (BOOL)nextBool
+{
+    return [[self class] nextBoolWithChanceOfTrue:.5f];
+}
+
++ (BOOL)nextBoolWithChanceOfTrue:(CGFloat)weight
+{
+    NSUInteger val = [[self class] nextInteger:100];
+    NSUInteger trueCutoff = 100*weight;
+    
+    return val <= trueCutoff;
+}
+
 @end

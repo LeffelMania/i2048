@@ -364,7 +364,8 @@
         LMBoardItem *item = [self itemAtRow:row column:col];
         if (!item)
         {
-            item = [[LMBoardItem alloc] initWithRow:row column:col];
+            LMBoardItemLevel level = [LMRandom nextBoolWithChanceOfTrue:.9f] ? 0 : 1;
+            item = [[LMBoardItem alloc] initWithRow:row column:col level:level];
             self.values[index] = item;
             
             return item;
