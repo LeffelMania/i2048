@@ -25,7 +25,7 @@
 
 - (void)dealloc
 {
-    [self.game removeObserver:self forKeyPath:@"score"];
+    [self stopListeningToGame];
 }
 
 - (id)initWithBoard:(LMBoard *)board
@@ -34,7 +34,7 @@
     if (self)
     {
         self.game = [[LMGame alloc] initWithBoard:board];
-        [self.game addObserver:self forKeyPath:@"score" options:NSKeyValueObservingOptionNew context:NULL];
+        [self startListeningToGame];
     }
     return self;
 }
@@ -48,24 +48,36 @@
     self.boardView.board = self.game.board;
 }
 
-- (IBAction)pressedLeft:(id)sender
+- (IBAction)swipedLeft:(id)sender
 {
     [self.boardView updateBoardWithNewItem:[self.game shiftLeft]];
 }
 
-- (IBAction)pressedRight:(id)sender
+- (IBAction)swipedRight:(id)sender
 {
     [self.boardView updateBoardWithNewItem:[self.game shiftRight]];
 }
 
-- (IBAction)pressedUp:(id)sender
+- (IBAction)swipedUp:(id)sender
 {
     [self.boardView updateBoardWithNewItem:[self.game shiftUp]];
 }
 
-- (IBAction)pressedDown:(id)sender
+- (IBAction)swipedDown:(id)sender
 {
     [self.boardView updateBoardWithNewItem:[self.game shiftDown]];
+}
+
+#pragma mark - KVO
+
+- (void)startListeningToGame
+{
+    [self.game addObserver:self forKeyPath:@"score" options:NSKeyValueObservingOptionNew context:NULL];
+}
+
+- (void)stopListeningToGame
+{
+    [self.game removeObserver:self forKeyPath:@"score"];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
