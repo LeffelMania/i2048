@@ -9,12 +9,19 @@
 #import <Foundation/Foundation.h>
 
 @class LMBoard;
+@class LMBoardItem;
 
 @interface LMGame : NSObject
 
 @property (nonatomic, strong, readonly) LMBoard *board;
+@property (nonatomic, readonly) NSUInteger score;
 
 - (instancetype)initWithBoard:(LMBoard *)board;
+
+- (LMBoardItem *)shiftUp;
+- (LMBoardItem *)shiftDown;
+- (LMBoardItem *)shiftLeft;
+- (LMBoardItem *)shiftRight;
 
 - (BOOL)isOver;
 

@@ -17,6 +17,7 @@ typedef NSUInteger LMBoardItemLevel;
 @property (nonatomic, assign) NSUInteger row;
 @property (nonatomic, assign) NSUInteger column;
 @property (nonatomic, readonly) LMBoardItemLevel level;
+@property (nonatomic, readonly) NSUInteger value;
 
 @property (nonatomic, readonly) LMBoardItem *parent;
 @property (nonatomic, readonly) BOOL isAlive;

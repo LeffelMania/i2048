@@ -57,6 +57,11 @@
     return [self.children count];
 }
 
+- (NSUInteger)value
+{
+    return 1 << (self.level + 1);
+}
+
 - (void)mergeIntoParent:(LMBoardItem *)parent
 {
     [parent.children addObject:self];

@@ -10,25 +10,31 @@
 
 #import "LMBoardView.h"
 
-#import "LMBoard.h"
-#import "LMBoardItem.h"
+#import "LMGame.h"
 
 @interface LMGameViewController ()
 
+@property (nonatomic, weak) IBOutlet UILabel *scoreLabel;
 @property (nonatomic, weak) IBOutlet LMBoardView *boardView;
 
-@property (nonatomic, strong) LMBoard *board;
+@property (nonatomic, strong) LMGame *game;
 
 @end
 
 @implementation LMGameViewController
+
+- (void)dealloc
+{
+    [self.game removeObserver:self forKeyPath:@"score"];
+}
 
 - (id)initWithBoard:(LMBoard *)board
 {
     self = [super initWithNibName:@"LMGameViewController" bundle:nil];
     if (self)
     {
-        self.board = board;
+        self.game = [[LMGame alloc] initWithBoard:board];
+        [self.game addObserver:self forKeyPath:@"score" options:NSKeyValueObservingOptionNew context:NULL];
     }
     return self;
 }
@@ -37,27 +43,37 @@
 {
     [super viewDidLoad];
     
-    self.boardView.board = self.board;
+    self.extendedLayoutIncludesOpaqueBars = UIRectEdgeNone;
+    
+    self.boardView.board = self.game.board;
 }
 
 - (IBAction)pressedLeft:(id)sender
 {
-    [self.boardView updateBoardWithNewItem:[self.board shiftLeft]];
+    [self.boardView updateBoardWithNewItem:[self.game shiftLeft]];
 }
 
 - (IBAction)pressedRight:(id)sender
 {
-    [self.boardView updateBoardWithNewItem:[self.board shiftRight]];
+    [self.boardView updateBoardWithNewItem:[self.game shiftRight]];
 }
 
 - (IBAction)pressedUp:(id)sender
 {
-    [self.boardView updateBoardWithNewItem:[self.board shiftUp]];
+    [self.boardView updateBoardWithNewItem:[self.game shiftUp]];
 }
 
 - (IBAction)pressedDown:(id)sender
 {
-    [self.boardView updateBoardWithNewItem:[self.board shiftDown]];
+    [self.boardView updateBoardWithNewItem:[self.game shiftDown]];
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    if ([keyPath isEqualToString:@"score"])
+    {
+        self.scoreLabel.text = [NSString stringWithFormat:@"%u", self.game.score];
+    }
 }
 
 @end

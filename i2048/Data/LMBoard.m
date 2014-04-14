@@ -10,6 +10,7 @@
 
 #import "LMBoardItem.h"
 #import "LMRandom.h"
+#import "LMShiftResult.h"
 
 @interface LMBoard ()
 
@@ -167,22 +168,22 @@
 
 #pragma mark Shift Actions
 
-- (LMBoardItem *)shiftUp
+- (LMShiftResult *)shiftUp
 {
     return [self shiftBoardByRows:YES reverse:NO];
 }
 
-- (LMBoardItem *)shiftDown
+- (LMShiftResult *)shiftDown
 {
     return [self shiftBoardByRows:YES reverse:YES];
 }
 
-- (LMBoardItem *)shiftLeft
+- (LMShiftResult *)shiftLeft
 {
     return [self shiftBoardByRows:NO reverse:NO];
 }
 
-- (LMBoardItem *)shiftRight
+- (LMShiftResult *)shiftRight
 {
     return [self shiftBoardByRows:NO reverse:YES];
 }
@@ -248,6 +249,11 @@
 
 - (BOOL)canShiftIndexes:(NSIndexSet *)subset reverse:(BOOL)reverse
 {
+    if ([self hasMatches:subset])
+    {
+        return YES;
+    }
+    
     __block BOOL result = NO;
     __block BOOL wasEmpty = NO;
     
@@ -267,22 +273,29 @@
     return result;
 }
 
-- (LMBoardItem *)shiftBoardByRows:(BOOL)rows reverse:(BOOL)reverse
+- (LMShiftResult *)shiftBoardByRows:(BOOL)rows reverse:(BOOL)reverse
 {
+    NSMutableArray *allMatches = [NSMutableArray array];
+    
     NSUInteger count = rows ? self.columnCount : self.rowCount;
     
     for (NSUInteger i = 0; i < count; i++)
     {
         NSIndexSet *itemSet = rows ? [self indexSetForColumn:i] : [self indexSetForRow:i];
         
-        [self consolidateIndexes:itemSet reverse:reverse];
+        NSArray *matches = [self consolidateIndexes:itemSet reverse:reverse];
+        [allMatches addObjectsFromArray:matches];
     }
     
-    return [self addSeedFromShift];
+    LMBoardItem *newItem = [self addSeedFromShift];
+    
+    return [[LMShiftResult alloc] initWithMatches:allMatches addition:newItem];
 }
 
-- (void)consolidateIndexes:(NSIndexSet *)subset reverse:(BOOL)reverse
+- (NSArray *)consolidateIndexes:(NSIndexSet *)subset reverse:(BOOL)reverse
 {
+    NSMutableArray *matchedItems = [NSMutableArray array];
+    
     __block LMBoardItem *toMatch = nil;
     NSMutableArray *fillQueue = [NSMutableArray array];
     
@@ -302,6 +315,8 @@
                                      [item mergeIntoParent:toMatch];
                                      self.values[idx] = LMBoardItemEmpty;
                                      
+                                     [matchedItems addObject:toMatch];
+                                     
                                      [fillQueue addObject:@(idx)];
                                      
                                      toMatch = nil;
@@ -320,6 +335,8 @@
                                      [fillQueue addObject:@(idx)];
                                  }
                              }];
+    
+    return matchedItems;
 }
 
 - (void)moveItem:(LMBoardItem *)item fromIndex:(NSUInteger)from toIndex:(NSUInteger)to

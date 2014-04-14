@@ -174,6 +174,20 @@ static LMBoardItemLevel kEmpty = 1234;
     XCTAssert([board canShiftUp], @"Couldn't shift up");
 }
 
+- (void)testCanShiftUpReturnsTrueForConsolidation
+{
+    LMBoardItemLevel values[4] = {
+        1,
+        1,
+        kEmpty,
+        kEmpty
+    };
+    
+    LMBoard *board = [self boardWithRows:4 columns:1 values:values];
+    
+    XCTAssert([board canShiftUp], @"Couldn't shift up");
+}
+
 - (void)testShiftUpMovesItemValues
 {
     LMBoardItemLevel values[4] = {
@@ -269,6 +283,20 @@ static LMBoardItemLevel kEmpty = 1234;
         kEmpty
     };
     LMBoard *board = [self boardWithRows:2 columns:1 values:values];
+    
+    XCTAssert([board canShiftDown], @"Couldn't shift down");
+}
+
+- (void)testCanShiftDownReturnsTrueForConsolidation
+{
+    LMBoardItemLevel values[4] = {
+        kEmpty,
+        kEmpty,
+        1,
+        1
+    };
+    
+    LMBoard *board = [self boardWithRows:4 columns:1 values:values];
     
     XCTAssert([board canShiftDown], @"Couldn't shift down");
 }
@@ -377,6 +405,17 @@ static LMBoardItemLevel kEmpty = 1234;
     XCTAssert([board canShiftLeft], @"Couldn't shift left");
 }
 
+- (void)testCanShiftLeftReturnsTrueForConsolidation
+{
+    LMBoardItemLevel values[4] = {
+        1, 1, kEmpty, kEmpty
+    };
+    
+    LMBoard *board = [self boardWithRows:1 columns:4 values:values];
+    
+    XCTAssert([board canShiftLeft], @"Couldn't shift left");
+}
+
 - (void)testShiftLeftMovesItemValues
 {
     LMBoardItemLevel values[4] = {
@@ -463,6 +502,17 @@ static LMBoardItemLevel kEmpty = 1234;
     };
     
     LMBoard *board = [self boardWithRows:2 columns:2 values:values];
+    
+    XCTAssert([board canShiftRight], @"Couldn't shift right");
+}
+
+- (void)testCanShiftRightReturnsTrueForConsolidation
+{
+    LMBoardItemLevel values[4] = {
+        kEmpty, kEmpty, 1, 1
+    };
+    
+    LMBoard *board = [self boardWithRows:1 columns:4 values:values];
     
     XCTAssert([board canShiftRight], @"Couldn't shift right");
 }
