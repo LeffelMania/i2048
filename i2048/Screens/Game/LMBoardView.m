@@ -71,7 +71,7 @@ static CGFloat const kItemSpacing = 10;
             [self.emptyLayer addSubview:emptyView];
             
             LMBoardItem *item = [self.board itemAtRow:row column:col];
-            [self addBoardItem:item];
+            [self addBoardItem:item animated:NO];
         }
     }
 }
@@ -111,7 +111,7 @@ static CGFloat const kItemSpacing = 10;
                              [view didUpdateFromBoardShift];
                          }
                          
-                         [self addBoardItem:newItem];
+                         [self addBoardItem:newItem animated:YES];
                      }];
 }
 
@@ -123,11 +123,12 @@ static CGFloat const kItemSpacing = 10;
     
     UIView *emptyView = [[UIView alloc] initWithFrame:frame];
     emptyView.backgroundColor = [UIColor whiteColor];
+    emptyView.roundedCorners = YES;
     
     return emptyView;
 }
 
-- (void)addBoardItem:(LMBoardItem *)item
+- (void)addBoardItem:(LMBoardItem *)item animated:(BOOL)animated
 {
     if (item)
     {
@@ -135,7 +136,24 @@ static CGFloat const kItemSpacing = 10;
         [self moveView:itemView toRow:item.row column:item.column];
         
         [self.itemLayer addSubview:itemView];
+        
+        if (animated)
+        {
+            [self animateViewEntry:itemView];
+        }
     }
+}
+
+- (void)animateViewEntry:(UIView *)view
+{
+    CABasicAnimation *anim;
+    
+    anim = [CABasicAnimation animationWithKeyPath:@"transform.scale"];
+    anim.duration = .125;
+    anim.fromValue = [NSNumber numberWithFloat:0];
+    anim.toValue = [NSNumber numberWithFloat:1.0];
+    
+    [view.layer addAnimation:anim forKey:@"entryScale"];
 }
 
 - (LMBoardItemView *)createViewForItem:(LMBoardItem *)item

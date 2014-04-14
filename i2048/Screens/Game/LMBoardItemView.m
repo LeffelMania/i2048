@@ -9,6 +9,7 @@
 #import "LMBoardItemView.h"
 
 #import "LMBoardItem.h"
+#import "UIView+FrameUtil.h"
 
 static CGFloat const kPulseDuration = .25;
 static CGFloat const kPulseScale = 1.15;
@@ -26,6 +27,8 @@ static CGFloat const kPulseScale = 1.15;
 - (void)awakeFromNib
 {
     self.displayedLevel = -1;
+    
+    self.roundedCorners = YES;
 }
 
 #pragma mark - Public Interface

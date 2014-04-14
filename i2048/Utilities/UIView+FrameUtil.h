@@ -7,4 +7,6 @@
 @property (nonatomic, assign) CGFloat x, y, width, height;
 @property (nonatomic, assign) CGFloat left, top, right, bottom;
 
+@property (nonatomic, assign) BOOL roundedCorners;
+
 @end

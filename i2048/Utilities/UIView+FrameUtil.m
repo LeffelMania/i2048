@@ -114,4 +114,15 @@
     self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.frame.size.width, newHeight);
 }
 
+- (void)setRoundedCorners:(BOOL)roundedCorners
+{
+    self.layer.cornerRadius = roundedCorners ? 5 : 0;
+    self.clipsToBounds = roundedCorners;
+}
+
+- (BOOL)roundedCorners
+{
+    return self.layer.cornerRadius != 0;
+}
+
 @end
