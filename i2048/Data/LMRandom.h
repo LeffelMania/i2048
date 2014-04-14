@@ -11,7 +11,6 @@
 @interface LMRandom : NSObject
 
 + (NSUInteger)nextInteger:(NSUInteger)upperBoundExclusive;
-+ (BOOL)nextBool;
 + (BOOL)nextBoolWithChanceOfTrue:(CGFloat)weight;
 
 @end

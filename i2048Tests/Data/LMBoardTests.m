@@ -7,9 +7,11 @@
 //
 
 #import <XCTest/XCTest.h>
+#import <OCMock/OCMock.h>
 
 #import "LMBoard.h"
 #import "LMBoardItem.h"
+#import "LMRandom.h"
 
 static LMBoardItemLevel kEmpty = 1234;
 
@@ -24,6 +26,14 @@ static LMBoardItemLevel kEmpty = 1234;
 @end
 
 @implementation LMBoardTests
+
+- (void)setUp
+{
+    [super setUp];
+    
+    id randomMock = [OCMockObject mockForClass:[LMRandom class]];
+    [[[[randomMock stub] ignoringNonObjectArgs] andReturnValue:@(YES)] nextBoolWithChanceOfTrue:0];
+}
 
 - (LMBoard *)boardWithRows:(NSUInteger)rows columns:(NSUInteger)columns values:(LMBoardItemLevel *)values
 {
