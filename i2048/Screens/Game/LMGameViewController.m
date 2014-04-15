@@ -28,12 +28,12 @@
     [self stopListeningToGame];
 }
 
-- (id)initWithBoard:(LMBoard *)board
+- (id)initWithGame:(LMGame *)game
 {
     self = [super initWithNibName:@"LMGameViewController" bundle:nil];
     if (self)
     {
-        self.game = [[LMGame alloc] initWithBoard:board];
+        self.game = game;
         [self startListeningToGame];
     }
     return self;

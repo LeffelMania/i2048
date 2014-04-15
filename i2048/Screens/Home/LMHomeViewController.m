@@ -11,6 +11,7 @@
 #import "LMGameViewController.h"
 
 #import "LMBoard.h"
+#import "LMGame.h"
 
 @interface LMHomeViewController ()
 
@@ -94,8 +95,9 @@
 - (IBAction)pressedGame:(id)sender
 {
     LMBoard *board = [[LMBoard alloc] initWithRows:self.rows columns:self.columns initialItemCount:self.seeds];
+    LMGame *game = [[LMGame alloc] initWithBoard:board];
     
-    LMGameViewController *vc = [[LMGameViewController alloc] initWithBoard:board];
+    LMGameViewController *vc = [[LMGameViewController alloc] initWithGame:game];
     [self.navigationController pushViewController:vc animated:YES];
 }
 

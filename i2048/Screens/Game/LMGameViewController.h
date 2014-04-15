@@ -8,10 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-@class LMBoard;
+@class LMGame;
 
 @interface LMGameViewController : UIViewController
 
-- (instancetype)initWithBoard:(LMBoard *)board;
+- (instancetype)initWithGame:(LMGame *)game;
 
 @end
