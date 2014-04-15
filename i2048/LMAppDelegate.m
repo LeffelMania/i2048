@@ -21,6 +21,7 @@
     
     LMHomeViewController *vc = [LMHomeViewController new];
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
+    nav.navigationBarHidden = YES;
     
     [self.window setRootViewController:nav];
     

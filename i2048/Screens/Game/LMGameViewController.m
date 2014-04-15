@@ -43,9 +43,12 @@
 {
     [super viewDidLoad];
     
-    self.extendedLayoutIncludesOpaqueBars = UIRectEdgeNone;
-    
     self.boardView.board = self.game.board;
+}
+
+- (IBAction)goBack:(id)sender
+{
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (IBAction)swipedLeft:(id)sender

@@ -59,7 +59,7 @@ static CGFloat const kItemSpacing = 10;
     
     _board = board;
     
-    self.itemSize = ((self.frame.size.width - kItemSpacing) / self.board.rowCount) - kItemSpacing;
+    self.itemSize = ((self.frame.size.width - kItemSpacing) / self.board.columnCount) - kItemSpacing;
     
     for (NSUInteger row = 0; row < self.board.rowCount; row++)
     {
