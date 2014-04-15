@@ -12,7 +12,7 @@
 
 #import "LMGame.h"
 
-@interface LMGameViewController ()
+@interface LMGameViewController () <UIAlertViewDelegate>
 
 @property (nonatomic, weak) IBOutlet UILabel *scoreLabel;
 @property (nonatomic, weak) IBOutlet LMBoardView *boardView;
@@ -53,22 +53,22 @@
 
 - (IBAction)swipedLeft:(id)sender
 {
-    [self.boardView updateBoardWithNewItem:[self.game shiftLeft]];
+    [self updateGameWithItem:[self.game shiftLeft]];
 }
 
 - (IBAction)swipedRight:(id)sender
 {
-    [self.boardView updateBoardWithNewItem:[self.game shiftRight]];
+    [self updateGameWithItem:[self.game shiftRight]];
 }
 
 - (IBAction)swipedUp:(id)sender
 {
-    [self.boardView updateBoardWithNewItem:[self.game shiftUp]];
+    [self updateGameWithItem:[self.game shiftUp]];
 }
 
 - (IBAction)swipedDown:(id)sender
 {
-    [self.boardView updateBoardWithNewItem:[self.game shiftDown]];
+    [self updateGameWithItem:[self.game shiftDown]];
 }
 
 #pragma mark - KVO
@@ -89,6 +89,36 @@
     {
         self.scoreLabel.text = [NSString stringWithFormat:@"%lu", (unsigned long)self.game.score];
     }
+}
+
+#pragma mark - Private Utility
+
+- (void)updateGameWithItem:(LMBoardItem *)item
+{
+    [self.boardView updateBoardWithNewItem:item];
+    
+    if ([self.game isOver])
+    {
+        self.boardView.userInteractionEnabled = NO;
+        [self performSelector:@selector(displayGameOver) withObject:nil afterDelay:.75];
+    }
+}
+
+- (void)displayGameOver
+{
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Game Over!"
+                                                    message:[NSString stringWithFormat:@"You scored %lu points before running out of moves!", (unsigned long)self.game.score]
+                                                   delegate:self
+                                          cancelButtonTitle:@"Neat-O" otherButtonTitles:nil];
+    
+    [alert show];
+}
+
+#pragma mark - UIAlertViewDelegate
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    [self goBack:nil];
 }
 
 @end
