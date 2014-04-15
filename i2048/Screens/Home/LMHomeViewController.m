@@ -69,21 +69,21 @@
 {
     _rows = rows;
     
-    self.rowLabel.text = [NSString stringWithFormat:@"%u", rows];
+    self.rowLabel.text = [NSString stringWithFormat:@"%lu", (unsigned long)rows];
 }
 
 - (void)setColumns:(NSUInteger)columns
 {
     _columns = columns;
     
-    self.columnLabel.text = [NSString stringWithFormat:@"%u", columns];
+    self.columnLabel.text = [NSString stringWithFormat:@"%lu", (unsigned long)columns];
 }
 
 - (void)setSeeds:(NSUInteger)seeds
 {
     _seeds = seeds;
     
-    self.seedLabel.text = [NSString stringWithFormat:@"%u", seeds];
+    self.seedLabel.text = [NSString stringWithFormat:@"%lu", (unsigned long)seeds];
 }
 
 - (IBAction)sliderValueChanged:(UISlider *)sender

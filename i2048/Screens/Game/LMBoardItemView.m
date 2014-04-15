@@ -44,7 +44,7 @@ static CGFloat const kPulseScale = 1.15;
 {
     self.displayedLevel = self.boardItem.level;
     
-    self.valueLabel.text = [NSString stringWithFormat:@"%i", self.boardItem.value];
+    self.valueLabel.text = [NSString stringWithFormat:@"%lu", (unsigned long)self.boardItem.value];
 }
 
 - (void)willUpdateFromBoardShift

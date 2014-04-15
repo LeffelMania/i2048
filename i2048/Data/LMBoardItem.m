@@ -82,7 +82,7 @@
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"LMBoardItem at (r%u, c%u): %@", self.row, self.column, @(self.level)];
+    return [NSString stringWithFormat:@"LMBoardItem at (r%lu, c%lu): %@", (unsigned long)self.row, (unsigned long)self.column, @(self.level)];
 }
 
 @end

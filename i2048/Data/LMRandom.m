@@ -12,7 +12,7 @@
 
 + (NSUInteger)nextInteger:(NSUInteger)upperBoundExclusive
 {
-    return arc4random_uniform(upperBoundExclusive);
+    return arc4random_uniform((unsigned int)upperBoundExclusive);
 }
 
 + (BOOL)nextBoolWithChanceOfTrue:(CGFloat)weight

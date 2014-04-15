@@ -416,7 +416,7 @@
         else
         {
             LMBoardItem *item = obj;
-            [boardString appendFormat:@"%u ", item.level];
+            [boardString appendFormat:@"%lu ", (unsigned long)item.level];
         }
         col++;
         

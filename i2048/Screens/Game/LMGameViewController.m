@@ -87,7 +87,7 @@
 {
     if ([keyPath isEqualToString:@"score"])
     {
-        self.scoreLabel.text = [NSString stringWithFormat:@"%u", self.game.score];
+        self.scoreLabel.text = [NSString stringWithFormat:@"%lu", (unsigned long)self.game.score];
     }
 }
 
