@@ -24,19 +24,26 @@
     return [UTGameScreen new];
 }
 
-- (void)setRows:(float)rows
+- (void)setRows:(NSUInteger)rows
 {
-    [self setValue:rows forSliderWithAccessibilityLabel:@"Row Slider"];
+    [self setValue:rows forSlider:@"Row Slider"];
 }
 
 - (void)setColumns:(NSUInteger)columns
 {
-    [self setValue:columns forSliderWithAccessibilityLabel:@"Column Slider"];
+    [self setValue:columns forSlider:@"Column Slider"];
 }
 
 - (void)setSeedCount:(NSUInteger)seeds
 {
-    [self setValue:seeds forSliderWithAccessibilityLabel:@"Seed Slider"];
+    [self setValue:seeds forSlider:@"Seed Slider"];
+}
+
+#pragma mark - Private Utility
+
+- (void)setValue:(NSUInteger)val forSlider:(NSString *)slider
+{
+    [self setValue:val forSliderWithAccessibilityLabel:slider];
 }
 
 @end

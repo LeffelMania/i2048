@@ -50,8 +50,8 @@
 
 - (void)refreshValues
 {
-    self.rows = (NSUInteger)self.rowSlider.value;
-    self.columns = (NSUInteger)self.columnSlider.value;
+    self.rows = (NSUInteger)roundf(self.rowSlider.value);
+    self.columns = (NSUInteger)roundf(self.columnSlider.value);
     
     NSUInteger max = (self.rows * self.columns);
     
@@ -62,7 +62,7 @@
     }
     else
     {
-        self.seeds = (NSUInteger)self.seedSlider.value;
+        self.seeds = (NSUInteger)roundf(self.seedSlider.value);
     }
 }
 

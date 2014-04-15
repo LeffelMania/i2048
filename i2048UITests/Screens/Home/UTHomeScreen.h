@@ -14,7 +14,7 @@
 
 - (UTGameScreen *)goToGame;
 
-- (void)setRows:(float)rows;
+- (void)setRows:(NSUInteger)rows;
 - (void)setColumns:(NSUInteger)columns;
 - (void)setSeedCount:(NSUInteger)seeds;
 

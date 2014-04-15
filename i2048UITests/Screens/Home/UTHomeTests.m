@@ -22,6 +22,7 @@
 - (void)beforeEach
 {
     self.homeScreen = [UTHomeScreen new];
+    [self.homeScreen assertVisible];
 }
 
 - (void)testGoToGame
@@ -35,10 +36,22 @@
     [self.homeScreen assertVisible];
 }
 
-- (void)testRowSlidersDisplaysRowCount
+- (void)testRowSliderDisplaysRowCount
 {
     [self.homeScreen setRows:5];
     [tester waitForViewWithAccessibilityLabel:@"5"];
+}
+
+- (void)testColumnSliderDisplaysColumnCount
+{
+    [self.homeScreen setColumns:3];
+    [tester waitForViewWithAccessibilityLabel:@"3"];
+}
+
+- (void)testSeedSliderDisplaysSeedCount
+{
+    [self.homeScreen setSeedCount:6];
+    [tester waitForViewWithAccessibilityLabel:@"6"];
 }
 
 @end
