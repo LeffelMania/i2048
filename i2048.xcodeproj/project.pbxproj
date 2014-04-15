@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8F22B2A6DD85447B840849F3 /* libPods-i2048UITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8447C7DF4D96486C96586C03 /* libPods-i2048UITests.a */; };
 		AE352EEF18F90A0E007972B9 /* LMRandom.m in Sources */ = {isa = PBXBuildFile; fileRef = AE352EEE18F90A0E007972B9 /* LMRandom.m */; };
 		AE352EF818FB120E007972B9 /* UIView+FrameUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = AE352EF718FB120E007972B9 /* UIView+FrameUtil.m */; };
 		AE352EFF18FBA42D007972B9 /* LMShiftResult.m in Sources */ = {isa = PBXBuildFile; fileRef = AE352EFE18FBA42D007972B9 /* LMShiftResult.m */; };
@@ -31,6 +32,14 @@
 		AEBA4B9E18F224ED004E1FE0 /* LMGameTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AEBA4B9D18F224ED004E1FE0 /* LMGameTests.m */; };
 		AEBA4BA118F24215004E1FE0 /* LMBoardItemTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AEBA4BA018F24215004E1FE0 /* LMBoardItemTests.m */; };
 		AEBA4BC218F25114004E1FE0 /* libOCMock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AEBA4BBA18F25114004E1FE0 /* libOCMock.a */; };
+		AEC7996718FD0B52002D2C90 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEBA4B5D18F20FA8004E1FE0 /* XCTest.framework */; };
+		AEC7996818FD0B52002D2C90 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEBA4B4418F20FA8004E1FE0 /* Foundation.framework */; };
+		AEC7996918FD0B52002D2C90 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEBA4B4818F20FA8004E1FE0 /* UIKit.framework */; };
+		AEC7996F18FD0B52002D2C90 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = AEC7996D18FD0B52002D2C90 /* InfoPlist.strings */; };
+		AEC7997F18FD0D7B002D2C90 /* UTHomeScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = AEC7997E18FD0D7B002D2C90 /* UTHomeScreen.m */; };
+		AEC7998218FD0DF3002D2C90 /* UTGameScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = AEC7998118FD0DF3002D2C90 /* UTGameScreen.m */; };
+		AEC7998518FD0E0A002D2C90 /* UTTestScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = AEC7998418FD0E0A002D2C90 /* UTTestScreen.m */; };
+		AEC7998718FD0F02002D2C90 /* UTHomeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AEC7998618FD0F02002D2C90 /* UTHomeTests.m */; };
 		AED09BFF18F50275005160DC /* LMGameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AED09BFE18F50275005160DC /* LMGameViewController.m */; };
 		AED09C0218F502DA005160DC /* LMGameViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AED09C0118F502DA005160DC /* LMGameViewController.xib */; };
 		AED09C0518F502F2005160DC /* LMBoardView.m in Sources */ = {isa = PBXBuildFile; fileRef = AED09C0418F502F2005160DC /* LMBoardView.m */; };
@@ -46,9 +55,17 @@
 			remoteGlobalIDString = AEBA4B4018F20FA8004E1FE0;
 			remoteInfo = i2048;
 		};
+		AEC7997318FD0B52002D2C90 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AEBA4B3918F20FA8004E1FE0 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AEBA4B4018F20FA8004E1FE0;
+			remoteInfo = i2048;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8447C7DF4D96486C96586C03 /* libPods-i2048UITests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-i2048UITests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AE352EED18F90A0E007972B9 /* LMRandom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMRandom.h; sourceTree = "<group>"; };
 		AE352EEE18F90A0E007972B9 /* LMRandom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMRandom.m; sourceTree = "<group>"; };
 		AE352EF618FB120E007972B9 /* UIView+FrameUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+FrameUtil.h"; sourceTree = "<group>"; };
@@ -91,6 +108,17 @@
 		AEBA4BBF18F25114004E1FE0 /* OCMock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMock.h; sourceTree = "<group>"; };
 		AEBA4BC018F25114004E1FE0 /* OCMockObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMockObject.h; sourceTree = "<group>"; };
 		AEBA4BC118F25114004E1FE0 /* OCMockRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMockRecorder.h; sourceTree = "<group>"; };
+		AEC7996618FD0B52002D2C90 /* i2048UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = i2048UITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		AEC7996C18FD0B52002D2C90 /* i2048UITests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "i2048UITests-Info.plist"; sourceTree = "<group>"; };
+		AEC7996E18FD0B52002D2C90 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		AEC7997218FD0B52002D2C90 /* i2048UITests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "i2048UITests-Prefix.pch"; sourceTree = "<group>"; };
+		AEC7997D18FD0D7B002D2C90 /* UTHomeScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UTHomeScreen.h; sourceTree = "<group>"; };
+		AEC7997E18FD0D7B002D2C90 /* UTHomeScreen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UTHomeScreen.m; sourceTree = "<group>"; };
+		AEC7998018FD0DF3002D2C90 /* UTGameScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UTGameScreen.h; sourceTree = "<group>"; };
+		AEC7998118FD0DF3002D2C90 /* UTGameScreen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UTGameScreen.m; sourceTree = "<group>"; };
+		AEC7998318FD0E0A002D2C90 /* UTTestScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UTTestScreen.h; sourceTree = "<group>"; };
+		AEC7998418FD0E0A002D2C90 /* UTTestScreen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UTTestScreen.m; sourceTree = "<group>"; };
+		AEC7998618FD0F02002D2C90 /* UTHomeTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UTHomeTests.m; sourceTree = "<group>"; };
 		AED09BFD18F50275005160DC /* LMGameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMGameViewController.h; sourceTree = "<group>"; };
 		AED09BFE18F50275005160DC /* LMGameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = LMGameViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		AED09C0118F502DA005160DC /* LMGameViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LMGameViewController.xib; sourceTree = "<group>"; };
@@ -99,6 +127,7 @@
 		AED09C0818F50407005160DC /* LMBoardItemView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LMBoardItemView.xib; sourceTree = "<group>"; };
 		AED09C0A18F504A9005160DC /* LMBoardItemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMBoardItemView.h; sourceTree = "<group>"; };
 		AED09C0B18F504A9005160DC /* LMBoardItemView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMBoardItemView.m; sourceTree = "<group>"; };
+		E49DDEB9244742E2BD55AEE6 /* Pods-i2048UITests.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-i2048UITests.xcconfig"; path = "Pods/Pods-i2048UITests.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -123,6 +152,17 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		AEC7996318FD0B52002D2C90 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AEC7996718FD0B52002D2C90 /* XCTest.framework in Frameworks */,
+				AEC7996918FD0B52002D2C90 /* UIKit.framework in Frameworks */,
+				AEC7996818FD0B52002D2C90 /* Foundation.framework in Frameworks */,
+				8F22B2A6DD85447B840849F3 /* libPods-i2048UITests.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -140,8 +180,10 @@
 			children = (
 				AEBA4B7318F21000004E1FE0 /* i2048 */,
 				AEBA4B6318F20FA8004E1FE0 /* i2048Tests */,
+				AEC7996A18FD0B52002D2C90 /* i2048UITests */,
 				AEBA4B4318F20FA8004E1FE0 /* Frameworks */,
 				AEBA4B4218F20FA8004E1FE0 /* Products */,
+				E49DDEB9244742E2BD55AEE6 /* Pods-i2048UITests.xcconfig */,
 			);
 			sourceTree = "<group>";
 		};
@@ -150,6 +192,7 @@
 			children = (
 				AEBA4B4118F20FA8004E1FE0 /* i2048.app */,
 				AEBA4B5C18F20FA8004E1FE0 /* i2048Tests.xctest */,
+				AEC7996618FD0B52002D2C90 /* i2048UITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -161,6 +204,7 @@
 				AEBA4B4618F20FA8004E1FE0 /* CoreGraphics.framework */,
 				AEBA4B4818F20FA8004E1FE0 /* UIKit.framework */,
 				AEBA4B5D18F20FA8004E1FE0 /* XCTest.framework */,
+				8447C7DF4D96486C96586C03 /* libPods-i2048UITests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -319,6 +363,55 @@
 			path = OCMock;
 			sourceTree = "<group>";
 		};
+		AEC7996A18FD0B52002D2C90 /* i2048UITests */ = {
+			isa = PBXGroup;
+			children = (
+				AEC7997818FD0CE8002D2C90 /* Screens */,
+				AEC7996B18FD0B52002D2C90 /* Supporting Files */,
+			);
+			path = i2048UITests;
+			sourceTree = "<group>";
+		};
+		AEC7996B18FD0B52002D2C90 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				AEC7996C18FD0B52002D2C90 /* i2048UITests-Info.plist */,
+				AEC7996D18FD0B52002D2C90 /* InfoPlist.strings */,
+				AEC7997218FD0B52002D2C90 /* i2048UITests-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		AEC7997818FD0CE8002D2C90 /* Screens */ = {
+			isa = PBXGroup;
+			children = (
+				AEC7997918FD0CE8002D2C90 /* Game */,
+				AEC7997A18FD0CE8002D2C90 /* Home */,
+				AEC7998318FD0E0A002D2C90 /* UTTestScreen.h */,
+				AEC7998418FD0E0A002D2C90 /* UTTestScreen.m */,
+			);
+			path = Screens;
+			sourceTree = "<group>";
+		};
+		AEC7997918FD0CE8002D2C90 /* Game */ = {
+			isa = PBXGroup;
+			children = (
+				AEC7998018FD0DF3002D2C90 /* UTGameScreen.h */,
+				AEC7998118FD0DF3002D2C90 /* UTGameScreen.m */,
+			);
+			path = Game;
+			sourceTree = "<group>";
+		};
+		AEC7997A18FD0CE8002D2C90 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				AEC7997D18FD0D7B002D2C90 /* UTHomeScreen.h */,
+				AEC7997E18FD0D7B002D2C90 /* UTHomeScreen.m */,
+				AEC7998618FD0F02002D2C90 /* UTHomeTests.m */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
 		AED09BFC18F50225005160DC /* Game */ = {
 			isa = PBXGroup;
 			children = (
@@ -381,6 +474,26 @@
 			productReference = AEBA4B5C18F20FA8004E1FE0 /* i2048Tests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		AEC7996518FD0B52002D2C90 /* i2048UITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AEC7997718FD0B52002D2C90 /* Build configuration list for PBXNativeTarget "i2048UITests" */;
+			buildPhases = (
+				7831B00F15164001A4DB1E4D /* Check Pods Manifest.lock */,
+				AEC7996218FD0B52002D2C90 /* Sources */,
+				AEC7996318FD0B52002D2C90 /* Frameworks */,
+				AEC7996418FD0B52002D2C90 /* Resources */,
+				CBC864EDFB5E45159B5F5AF2 /* Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				AEC7997418FD0B52002D2C90 /* PBXTargetDependency */,
+			);
+			name = i2048UITests;
+			productName = i2048UITests;
+			productReference = AEC7996618FD0B52002D2C90 /* i2048UITests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -392,6 +505,9 @@
 				ORGANIZATIONNAME = "Alex Leffelman";
 				TargetAttributes = {
 					AEBA4B5B18F20FA8004E1FE0 = {
+						TestTargetID = AEBA4B4018F20FA8004E1FE0;
+					};
+					AEC7996518FD0B52002D2C90 = {
 						TestTargetID = AEBA4B4018F20FA8004E1FE0;
 					};
 				};
@@ -410,6 +526,7 @@
 			targets = (
 				AEBA4B4018F20FA8004E1FE0 /* i2048 */,
 				AEBA4B5B18F20FA8004E1FE0 /* i2048Tests */,
+				AEC7996518FD0B52002D2C90 /* i2048UITests */,
 			);
 		};
 /* End PBXProject section */
@@ -435,9 +552,32 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		AEC7996418FD0B52002D2C90 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AEC7996F18FD0B52002D2C90 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		7831B00F15164001A4DB1E4D /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
 		AEBA4B9F18F22EDB004E1FE0 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -450,6 +590,21 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "./test-coverage/exportenv.sh";
+		};
+		CBC864EDFB5E45159B5F5AF2 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Pods-i2048UITests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -484,6 +639,17 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		AEC7996218FD0B52002D2C90 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AEC7998218FD0DF3002D2C90 /* UTGameScreen.m in Sources */,
+				AEC7998718FD0F02002D2C90 /* UTHomeTests.m in Sources */,
+				AEC7997F18FD0D7B002D2C90 /* UTHomeScreen.m in Sources */,
+				AEC7998518FD0E0A002D2C90 /* UTTestScreen.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -491,6 +657,11 @@
 			isa = PBXTargetDependency;
 			target = AEBA4B4018F20FA8004E1FE0 /* i2048 */;
 			targetProxy = AEBA4B6118F20FA8004E1FE0 /* PBXContainerItemProxy */;
+		};
+		AEC7997418FD0B52002D2C90 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AEBA4B4018F20FA8004E1FE0 /* i2048 */;
+			targetProxy = AEC7997318FD0B52002D2C90 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -507,6 +678,14 @@
 			isa = PBXVariantGroup;
 			children = (
 				AEBA4B7C18F21000004E1FE0 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		AEC7996D18FD0B52002D2C90 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				AEC7996E18FD0B52002D2C90 /* en */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -694,6 +873,48 @@
 			};
 			name = Release;
 		};
+		AEC7997518FD0B52002D2C90 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E49DDEB9244742E2BD55AEE6 /* Pods-i2048UITests.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/i2048.app/i2048";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "i2048UITests/i2048UITests-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "i2048UITests/i2048UITests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Debug;
+		};
+		AEC7997618FD0B52002D2C90 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E49DDEB9244742E2BD55AEE6 /* Pods-i2048UITests.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/i2048.app/i2048";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "i2048UITests/i2048UITests-Prefix.pch";
+				INFOPLIST_FILE = "i2048UITests/i2048UITests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -720,6 +941,15 @@
 			buildConfigurations = (
 				AEBA4B7118F20FA8004E1FE0 /* Debug */,
 				AEBA4B7218F20FA8004E1FE0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AEC7997718FD0B52002D2C90 /* Build configuration list for PBXNativeTarget "i2048UITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AEC7997518FD0B52002D2C90 /* Debug */,
+				AEC7997618FD0B52002D2C90 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
