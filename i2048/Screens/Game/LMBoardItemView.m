@@ -68,6 +68,16 @@ static CGFloat const kPulseScale = 1.15;
     [self pulseDown];
 }
 
+- (NSString *)accessibilityValue
+{
+    return [LMBoardItemView accessibilityValueForRow:self.boardItem.row column:self.boardItem.column level:self.boardItem.level];
+}
+
++ (NSString *)accessibilityValueForRow:(NSUInteger)row column:(NSUInteger)column level:(LMBoardItemLevel)level
+{
+    return [NSString stringWithFormat:@"%lu,%lu - %lu", (unsigned long)row, (unsigned long)column, (unsigned long)level];
+}
+
 #pragma mark - Private Utility
 
 - (void)pulseUp

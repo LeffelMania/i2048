@@ -20,4 +20,6 @@
 - (void)willUpdateFromBoardShift;
 - (void)didUpdateFromBoardShift;
 
++ (NSString *)accessibilityValueForRow:(NSUInteger)row column:(NSUInteger)column level:(LMBoardItemLevel)level;
+
 @end

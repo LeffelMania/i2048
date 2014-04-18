@@ -19,6 +19,9 @@
                 <view contentMode="scaleToFill" id="W0C-GC-cpq" customClass="LMBoardView">
                     <rect key="frame" x="0.0" y="124" width="320" height="320"/>
                     <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                    <accessibility key="accessibilityConfiguration" label="Game Board">
+                        <bool key="isElement" value="YES"/>
+                    </accessibility>
                     <gestureRecognizers/>
                     <connections>
                         <outletCollection property="gestureRecognizers" destination="mqO-HO-saz" appends="YES" id="asq-xV-3CO"/>

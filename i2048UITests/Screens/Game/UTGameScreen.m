@@ -10,14 +10,36 @@
 
 @implementation UTGameScreen
 
+static NSString *const kBoardLabel = @"Game Board";
+
 - (NSString *)idenitifyingLabel
 {
-    return @"Quit";
+    return kBoardLabel;
 }
 
 - (void)goBack
 {
     [self tapViewWithAccessibilityLabel:@"Quit"];
+}
+
+- (void)shiftUp
+{
+    [self swipeViewWithAccessibilityLabel:kBoardLabel inDirection:KIFSwipeDirectionUp];
+}
+
+- (void)shiftDown
+{
+    [self swipeViewWithAccessibilityLabel:kBoardLabel inDirection:KIFSwipeDirectionDown];
+}
+
+- (void)shiftLeft
+{
+    [self swipeViewWithAccessibilityLabel:kBoardLabel inDirection:KIFSwipeDirectionLeft];
+}
+
+- (void)shiftRight
+{
+    [self swipeViewWithAccessibilityLabel:kBoardLabel inDirection:KIFSwipeDirectionRight];
 }
 
 @end

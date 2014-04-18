@@ -50,8 +50,11 @@
 
 - (void)testSeedSliderDisplaysSeedCount
 {
-    [self.homeScreen setSeedCount:6];
-    [tester waitForViewWithAccessibilityLabel:@"6"];
+    [self.homeScreen setRows:4];
+    [self.homeScreen setColumns:4];
+    
+    [self.homeScreen setSeedCount:5];
+    [tester waitForViewWithAccessibilityLabel:@"5"];
 }
 
 @end

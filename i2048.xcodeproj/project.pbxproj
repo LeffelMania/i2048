@@ -40,6 +40,8 @@
 		AEC7998218FD0DF3002D2C90 /* UTGameScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = AEC7998118FD0DF3002D2C90 /* UTGameScreen.m */; };
 		AEC7998518FD0E0A002D2C90 /* UTTestScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = AEC7998418FD0E0A002D2C90 /* UTTestScreen.m */; };
 		AEC7998718FD0F02002D2C90 /* UTHomeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AEC7998618FD0F02002D2C90 /* UTHomeTests.m */; };
+		AEC7998918FE28BC002D2C90 /* UTGameTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AEC7998818FE28BC002D2C90 /* UTGameTests.m */; };
+		AEC7998A18FE2B80002D2C90 /* libOCMock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AEBA4BBA18F25114004E1FE0 /* libOCMock.a */; };
 		AED09BFF18F50275005160DC /* LMGameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AED09BFE18F50275005160DC /* LMGameViewController.m */; };
 		AED09C0218F502DA005160DC /* LMGameViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AED09C0118F502DA005160DC /* LMGameViewController.xib */; };
 		AED09C0518F502F2005160DC /* LMBoardView.m in Sources */ = {isa = PBXBuildFile; fileRef = AED09C0418F502F2005160DC /* LMBoardView.m */; };
@@ -119,6 +121,7 @@
 		AEC7998318FD0E0A002D2C90 /* UTTestScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UTTestScreen.h; sourceTree = "<group>"; };
 		AEC7998418FD0E0A002D2C90 /* UTTestScreen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UTTestScreen.m; sourceTree = "<group>"; };
 		AEC7998618FD0F02002D2C90 /* UTHomeTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UTHomeTests.m; sourceTree = "<group>"; };
+		AEC7998818FE28BC002D2C90 /* UTGameTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UTGameTests.m; sourceTree = "<group>"; };
 		AED09BFD18F50275005160DC /* LMGameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMGameViewController.h; sourceTree = "<group>"; };
 		AED09BFE18F50275005160DC /* LMGameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = LMGameViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		AED09C0118F502DA005160DC /* LMGameViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LMGameViewController.xib; sourceTree = "<group>"; };
@@ -160,6 +163,7 @@
 				AEC7996918FD0B52002D2C90 /* UIKit.framework in Frameworks */,
 				AEC7996818FD0B52002D2C90 /* Foundation.framework in Frameworks */,
 				8F22B2A6DD85447B840849F3 /* libPods-i2048UITests.a in Frameworks */,
+				AEC7998A18FE2B80002D2C90 /* libOCMock.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -398,6 +402,7 @@
 			children = (
 				AEC7998018FD0DF3002D2C90 /* UTGameScreen.h */,
 				AEC7998118FD0DF3002D2C90 /* UTGameScreen.m */,
+				AEC7998818FE28BC002D2C90 /* UTGameTests.m */,
 			);
 			path = Game;
 			sourceTree = "<group>";
@@ -643,6 +648,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AEC7998918FE28BC002D2C90 /* UTGameTests.m in Sources */,
 				AEC7998218FD0DF3002D2C90 /* UTGameScreen.m in Sources */,
 				AEC7998718FD0F02002D2C90 /* UTHomeTests.m in Sources */,
 				AEC7997F18FD0D7B002D2C90 /* UTHomeScreen.m in Sources */,
@@ -889,7 +895,16 @@
 					"DEBUG=1",
 					"$(inherited)",
 				);
+				HEADER_SEARCH_PATHS = (
+					"\"${PODS_ROOT}/Headers\"",
+					"\"${PODS_ROOT}/Headers/KIF\"",
+					"\"$(PROJECT_DIR)/i2048Tests/External\"",
+				);
 				INFOPLIST_FILE = "i2048UITests/i2048UITests-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/i2048Tests/External",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
@@ -908,7 +923,16 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "i2048UITests/i2048UITests-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					"\"${PODS_ROOT}/Headers\"",
+					"\"${PODS_ROOT}/Headers/KIF\"",
+					"\"$(PROJECT_DIR)/i2048Tests/External\"",
+				);
 				INFOPLIST_FILE = "i2048UITests/i2048UITests-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/i2048Tests/External",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;

@@ -12,4 +12,9 @@
 
 - (void)goBack;
 
+- (void)shiftDown;
+- (void)shiftUp;
+- (void)shiftLeft;
+- (void)shiftRight;
+
 @end
