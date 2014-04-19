@@ -36,13 +36,13 @@
         NSUInteger result = [[LMRandom instance] nextInteger:upperBound];
         if (result >= upperBound)
         {
-            NSLog(@"result %u meets or exceeds upper bound %u", result, upperBound);
+            NSLog(@"result %lu meets or exceeds upper bound %lu", (unsigned long)result, (unsigned long)upperBound);
             exceeded = YES;
             break;
         }
     }
     
-    XCTAssert(!exceeded, @"Upper bound %u was exceeded", upperBound);
+    XCTAssert(!exceeded, @"Upper bound %lu was exceeded", (unsigned long)upperBound);
 }
 
 - (void)expectNextInt:(NSUInteger)result

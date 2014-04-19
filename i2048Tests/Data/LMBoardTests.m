@@ -93,13 +93,13 @@ static LMBoardItemLevel kEmpty = 1234;
 
             if (values[index] == kEmpty)
             {
-                XCTAssert(item == nil, @"Item at %u, %u expected to be nil", row, col);
+                XCTAssert(item == nil, @"Item at %lu, %lu expected to be nil",(unsigned long) (unsigned long)row, (unsigned long)col);
             }
             else
             {
-                XCTAssert(item.row == row, @"Item expected to be at row %u, was at %u", item.row, row);
-                XCTAssert(item.column == col, @"Item expected to be at column %u, was at %u", item.column, col);
-                XCTAssert(item.level == values[index], @"Item at %u, %u expected to be %u, was %u", row, col, values[index], item.level);
+                XCTAssert(item.row == row, @"Item expected to be at row %lu, was at %lu", (unsigned long)item.row, (unsigned long)row);
+                XCTAssert(item.column == col, @"Item expected to be at column %lu, was at %lu", (unsigned long)item.column, (unsigned long)col);
+                XCTAssert(item.level == values[index], @"Item at %lu, %lu expected to be %lu, was %lu",(unsigned long) (unsigned long)row, (unsigned long)col, (unsigned long)values[index], (unsigned long)item.level);
             }
             
             index++;
@@ -153,7 +153,7 @@ static LMBoardItemLevel kEmpty = 1234;
             NSUInteger index = (row * 2) + col;
             
             LMBoardItem *item = [board itemAtRow:row column:col];
-            XCTAssert(item.level == values[index], @"Board iteration failed at index %u; expected %u, got %u", index, values[index], item.level);
+            XCTAssert(item.level == values[index], @"Board iteration failed at index %lu; expected %lu, got %lu",(unsigned long) (unsigned long)index, (unsigned long)values[index], (unsigned long)item.level);
         }
     }
 }
