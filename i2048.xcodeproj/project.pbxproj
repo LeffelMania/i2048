@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		8F22B2A6DD85447B840849F3 /* libPods-i2048UITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8447C7DF4D96486C96586C03 /* libPods-i2048UITests.a */; };
+		AE17236E19021124009A6CFC /* LMRandomTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AE17236D19021124009A6CFC /* LMRandomTests.m */; };
 		AE352EEF18F90A0E007972B9 /* LMRandom.m in Sources */ = {isa = PBXBuildFile; fileRef = AE352EEE18F90A0E007972B9 /* LMRandom.m */; };
 		AE352EF818FB120E007972B9 /* UIView+FrameUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = AE352EF718FB120E007972B9 /* UIView+FrameUtil.m */; };
 		AE352EFF18FBA42D007972B9 /* LMShiftResult.m in Sources */ = {isa = PBXBuildFile; fileRef = AE352EFE18FBA42D007972B9 /* LMShiftResult.m */; };
@@ -67,6 +68,7 @@
 
 /* Begin PBXFileReference section */
 		8447C7DF4D96486C96586C03 /* libPods-i2048UITests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-i2048UITests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		AE17236D19021124009A6CFC /* LMRandomTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMRandomTests.m; sourceTree = "<group>"; };
 		AE352EED18F90A0E007972B9 /* LMRandom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMRandom.h; sourceTree = "<group>"; };
 		AE352EEE18F90A0E007972B9 /* LMRandom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMRandom.m; sourceTree = "<group>"; };
 		AE352EF618FB120E007972B9 /* UIView+FrameUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+FrameUtil.h"; sourceTree = "<group>"; };
@@ -336,6 +338,7 @@
 				AEBA4BA018F24215004E1FE0 /* LMBoardItemTests.m */,
 				AEBA4B9B18F21F67004E1FE0 /* LMBoardTests.m */,
 				AEBA4B9D18F224ED004E1FE0 /* LMGameTests.m */,
+				AE17236D19021124009A6CFC /* LMRandomTests.m */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -635,6 +638,7 @@
 				AEBA4B9E18F224ED004E1FE0 /* LMGameTests.m in Sources */,
 				AEBA4BA118F24215004E1FE0 /* LMBoardItemTests.m in Sources */,
 				AEBA4B9C18F21F67004E1FE0 /* LMBoardTests.m in Sources */,
+				AE17236E19021124009A6CFC /* LMRandomTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
