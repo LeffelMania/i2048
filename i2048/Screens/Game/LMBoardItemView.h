@@ -15,8 +15,6 @@
 
 @property (nonatomic, weak) LMBoardItem *boardItem;
 
-- (void)refreshUiForCurrentLevel;
-
 - (void)willUpdateFromBoardShift;
 - (void)didUpdateFromBoardShift;
 

@@ -31,8 +31,23 @@ static LMBoardItemLevel kEmpty = 1234;
 {
     [super setUp];
     
-    id randomMock = [OCMockObject mockForClass:[LMRandom class]];
+    id randomMock = [OCMockObject partialMockForObject:[LMRandom instance]];
     [[[[randomMock stub] ignoringNonObjectArgs] andReturnValue:@(YES)] nextBoolWithChanceOfTrue:0];
+}
+
+- (void)testRandomMock
+{
+    BOOL result = YES;
+    for (NSUInteger i = 0; i < 1000; i++)
+    {
+        result = [[LMRandom instance] nextBoolWithChanceOfTrue:.1f];
+        if (!result)
+        {
+            break;
+        }
+    }
+    
+    XCTAssert(result, @"LMRandom stubbed to YES returned a NO");
 }
 
 - (LMBoard *)boardWithRows:(NSUInteger)rows columns:(NSUInteger)columns values:(LMBoardItemLevel *)values

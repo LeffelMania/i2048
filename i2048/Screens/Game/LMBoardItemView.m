@@ -38,13 +38,7 @@ static CGFloat const kPulseScale = 1.15;
     _boardItem = item;
     
     [self refreshUiForCurrentLevel];
-}
-
-- (void)refreshUiForCurrentLevel
-{
-    self.displayedLevel = self.boardItem.level;
-    
-    self.valueLabel.text = [NSString stringWithFormat:@"%lu", (unsigned long)self.boardItem.value];
+    [self refreshAccessibilityValue];
 }
 
 - (void)willUpdateFromBoardShift
@@ -60,17 +54,7 @@ static CGFloat const kPulseScale = 1.15;
 
 - (void)didUpdateFromBoardShift
 {
-    if (self.displayedLevel == self.boardItem.level)
-    {
-        return;
-    }
-    
-    [self pulseDown];
-}
-
-- (NSString *)accessibilityValue
-{
-    return [LMBoardItemView accessibilityValueForRow:self.boardItem.row column:self.boardItem.column level:self.boardItem.level];
+    [self refreshAccessibilityValue];
 }
 
 + (NSString *)accessibilityValueForRow:(NSUInteger)row column:(NSUInteger)column level:(LMBoardItemLevel)level
@@ -80,18 +64,23 @@ static CGFloat const kPulseScale = 1.15;
 
 #pragma mark - Private Utility
 
+- (void)refreshUiForCurrentLevel
+{
+    self.displayedLevel = self.boardItem.level;
+    
+    self.valueLabel.text = [NSString stringWithFormat:@"%lu", (unsigned long)self.boardItem.value];
+}
+
+- (void)refreshAccessibilityValue
+{
+    self.accessibilityValue = [LMBoardItemView accessibilityValueForRow:self.boardItem.row column:self.boardItem.column level:self.boardItem.level];
+}
+
 - (void)pulseUp
 {
     CABasicAnimation *pulse = [self pulseAnimationFromScale:1.0f toScale:kPulseScale];
     
     [self.layer addAnimation:pulse forKey:@"pulseUp"];
-}
-
-- (void)pulseDown
-{
-    CABasicAnimation *pulse = [self pulseAnimationFromScale:kPulseScale toScale:1.0f];
-    
-    [self.layer addAnimation:pulse forKey:@"pulseDown"];
 }
 
 - (CABasicAnimation *)pulseAnimationFromScale:(CGFloat)fromScale toScale:(CGFloat)toScale
@@ -100,7 +89,7 @@ static CGFloat const kPulseScale = 1.15;
     
     anim = [CABasicAnimation animationWithKeyPath:@"transform.scale"];
     anim.duration = (kPulseDuration / 2);
-    anim.autoreverses = NO;
+    anim.autoreverses = YES;
     anim.removedOnCompletion = NO;
     anim.fromValue = [NSNumber numberWithFloat:fromScale];
     anim.toValue = [NSNumber numberWithFloat:toScale];

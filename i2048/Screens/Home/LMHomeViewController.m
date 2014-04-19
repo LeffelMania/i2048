@@ -55,7 +55,7 @@
     
     NSUInteger max = (self.rows * self.columns);
     
-    self.seedSlider.maximumValue = max - 1;
+    self.seedSlider.maximumValue = max;
     if (self.seeds > max)
     {
         self.seeds = max;

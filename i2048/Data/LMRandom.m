@@ -10,14 +10,26 @@
 
 @implementation LMRandom
 
-+ (NSUInteger)nextInteger:(NSUInteger)upperBoundExclusive
++ (instancetype)instance
+{
+    static LMRandom *instance = nil;
+    
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        instance = [[LMRandom alloc] init];
+    });
+    
+    return instance;
+}
+
+- (NSUInteger)nextInteger:(NSUInteger)upperBoundExclusive
 {
     return arc4random_uniform((unsigned int)upperBoundExclusive);
 }
 
-+ (BOOL)nextBoolWithChanceOfTrue:(CGFloat)weight
+- (BOOL)nextBoolWithChanceOfTrue:(CGFloat)weight
 {
-    NSUInteger val = [[self class] nextInteger:100];
+    NSUInteger val = [self nextInteger:100];
     NSUInteger trueCutoff = 100*weight;
     
     return val <= trueCutoff;

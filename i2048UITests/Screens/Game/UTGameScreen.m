@@ -20,26 +20,37 @@ static NSString *const kBoardLabel = @"Game Board";
 - (void)goBack
 {
     [self tapViewWithAccessibilityLabel:@"Quit"];
+    [self waitForTimeInterval:UTWaitInterval];
 }
 
 - (void)shiftUp
 {
-    [self swipeViewWithAccessibilityLabel:kBoardLabel inDirection:KIFSwipeDirectionUp];
+    [self shiftInDirection:KIFSwipeDirectionUp];
 }
 
 - (void)shiftDown
 {
-    [self swipeViewWithAccessibilityLabel:kBoardLabel inDirection:KIFSwipeDirectionDown];
+    [self shiftInDirection:KIFSwipeDirectionDown];
 }
 
 - (void)shiftLeft
 {
-    [self swipeViewWithAccessibilityLabel:kBoardLabel inDirection:KIFSwipeDirectionLeft];
+    [self shiftInDirection:KIFSwipeDirectionLeft];
 }
 
 - (void)shiftRight
 {
-    [self swipeViewWithAccessibilityLabel:kBoardLabel inDirection:KIFSwipeDirectionRight];
+    [self shiftInDirection:KIFSwipeDirectionRight];
+}
+
+- (void)shiftInDirection:(KIFSwipeDirection)direction
+{
+    [self swipeViewWithAccessibilityLabel:kBoardLabel inDirection:direction];
+}
+
+- (void)dismissGameOverAlert
+{
+    [self tapViewWithAccessibilityLabel:@"Neat-O"];
 }
 
 @end

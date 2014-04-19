@@ -8,6 +8,8 @@
 
 #import "KIFUITestActor.h"
 
+FOUNDATION_EXPORT NSTimeInterval const UTWaitInterval;
+
 @interface UTTestScreen : KIFUITestActor
 
 @property (nonatomic, readonly) NSString *idenitifyingLabel;

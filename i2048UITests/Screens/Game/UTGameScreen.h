@@ -17,4 +17,6 @@
 - (void)shiftLeft;
 - (void)shiftRight;
 
+- (void)dismissGameOverAlert;
+
 @end

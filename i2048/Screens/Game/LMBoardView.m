@@ -47,19 +47,12 @@ static CGFloat const kItemSpacing = 10;
 
 - (void)setBoard:(LMBoard *)board
 {
-    for (UIView *view in self.emptyLayer.subviews)
-    {
-        [view removeFromSuperview];
-    }
-    
-    for (LMBoardItemView *view in self.itemLayer.subviews)
-    {
-        [view removeFromSuperview];
-    }
+    NSAssert(self.board == nil, @"Board has already been set for this view.");
     
     _board = board;
     
-    self.itemSize = ((self.frame.size.width - kItemSpacing) / self.board.columnCount) - kItemSpacing;
+    NSUInteger maxItemCount = MAX(self.board.columnCount, self.board.rowCount);
+    self.itemSize = ((self.frame.size.width - kItemSpacing) / maxItemCount) - kItemSpacing;
     
     for (NSUInteger row = 0; row < self.board.rowCount; row++)
     {
@@ -163,20 +156,6 @@ static CGFloat const kItemSpacing = 10;
     view.size = CGSizeMake(self.itemSize, self.itemSize);
     
     return view;
-}
-
-- (LMBoardItemView *)viewForItem:(LMBoardItem *)item
-{
-    for (LMBoardItemView *view in self.itemLayer.subviews)
-    {
-        if ([view.boardItem isEqual:item])
-        {
-            return view;
-        }
-    }
-    
-    NSAssert(NO, @"Didn't find view for item: %@", item);
-    return nil;
 }
 
 - (void)moveView:(UIView *)view toRow:(NSUInteger)row column:(NSUInteger)col

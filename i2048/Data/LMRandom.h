@@ -10,7 +10,9 @@
 
 @interface LMRandom : NSObject
 
-+ (NSUInteger)nextInteger:(NSUInteger)upperBoundExclusive;
-+ (BOOL)nextBoolWithChanceOfTrue:(CGFloat)weight;
++ (instancetype)instance;
+
+- (NSUInteger)nextInteger:(NSUInteger)upperBoundExclusive;
+- (BOOL)nextBoolWithChanceOfTrue:(CGFloat)weight;
 
 @end

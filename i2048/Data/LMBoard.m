@@ -356,7 +356,7 @@
 
 - (LMBoardItem *)insertNewItem
 {
-    NSUInteger start = [LMRandom nextInteger:[self count]];
+    NSUInteger start = [[LMRandom instance] nextInteger:[self count]];
     
     NSUInteger index = start;
     do
@@ -367,7 +367,7 @@
         LMBoardItem *item = [self itemAtRow:row column:col];
         if (!item)
         {
-            LMBoardItemLevel level = [LMRandom nextBoolWithChanceOfTrue:.9f] ? 0 : 1;
+            LMBoardItemLevel level = [[LMRandom instance] nextBoolWithChanceOfTrue:.9f] ? 0 : 1;
             item = [[LMBoardItem alloc] initWithRow:row column:col level:level];
             self.values[index] = item;
             

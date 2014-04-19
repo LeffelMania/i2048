@@ -8,11 +8,23 @@
 
 #import "UTTestScreen.h"
 
+NSTimeInterval const UTWaitInterval = .25;
+
 @implementation UTTestScreen
+
+- (id)init
+{
+    self = [super init];
+    if (self)
+    {
+        self.executionBlockTimeout = 2;
+    }
+    return self;
+}
 
 - (void)assertVisible
 {
-    [[self usingTimeout:2] waitForViewWithAccessibilityLabel:self.idenitifyingLabel];
+    [self waitForViewWithAccessibilityLabel:self.idenitifyingLabel];
 }
 
 - (NSString *)idenitifyingLabel

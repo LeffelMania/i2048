@@ -20,6 +20,7 @@
 - (UTGameScreen *)goToGame
 {
     [self tapViewWithAccessibilityLabel:@"Start Game"];
+    [self waitForTimeInterval:UTWaitInterval];
     
     return [UTGameScreen new];
 }
