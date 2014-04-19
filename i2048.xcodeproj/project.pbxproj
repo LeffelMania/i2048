@@ -11,7 +11,6 @@
 		AE352EEF18F90A0E007972B9 /* LMRandom.m in Sources */ = {isa = PBXBuildFile; fileRef = AE352EEE18F90A0E007972B9 /* LMRandom.m */; };
 		AE352EF818FB120E007972B9 /* UIView+FrameUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = AE352EF718FB120E007972B9 /* UIView+FrameUtil.m */; };
 		AE352EFF18FBA42D007972B9 /* LMShiftResult.m in Sources */ = {isa = PBXBuildFile; fileRef = AE352EFE18FBA42D007972B9 /* LMShiftResult.m */; };
-		AE352F0418FCFBB1007972B9 /* LMShiftOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = AE352F0318FCFBB1007972B9 /* LMShiftOperation.m */; };
 		AEBA4B4518F20FA8004E1FE0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEBA4B4418F20FA8004E1FE0 /* Foundation.framework */; };
 		AEBA4B4718F20FA8004E1FE0 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEBA4B4618F20FA8004E1FE0 /* CoreGraphics.framework */; };
 		AEBA4B4918F20FA8004E1FE0 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEBA4B4818F20FA8004E1FE0 /* UIKit.framework */; };
@@ -74,8 +73,6 @@
 		AE352EF718FB120E007972B9 /* UIView+FrameUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+FrameUtil.m"; sourceTree = "<group>"; };
 		AE352EFD18FBA42D007972B9 /* LMShiftResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMShiftResult.h; sourceTree = "<group>"; };
 		AE352EFE18FBA42D007972B9 /* LMShiftResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMShiftResult.m; sourceTree = "<group>"; };
-		AE352F0218FCFBB1007972B9 /* LMShiftOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMShiftOperation.h; sourceTree = "<group>"; };
-		AE352F0318FCFBB1007972B9 /* LMShiftOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMShiftOperation.m; sourceTree = "<group>"; };
 		AEBA4B4118F20FA8004E1FE0 /* i2048.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = i2048.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AEBA4B4418F20FA8004E1FE0 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		AEBA4B4618F20FA8004E1FE0 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -327,8 +324,6 @@
 				AEBA4B9218F2129E004E1FE0 /* LMGame.m */,
 				AE352EED18F90A0E007972B9 /* LMRandom.h */,
 				AE352EEE18F90A0E007972B9 /* LMRandom.m */,
-				AE352F0218FCFBB1007972B9 /* LMShiftOperation.h */,
-				AE352F0318FCFBB1007972B9 /* LMShiftOperation.m */,
 				AE352EFD18FBA42D007972B9 /* LMShiftResult.h */,
 				AE352EFE18FBA42D007972B9 /* LMShiftResult.m */,
 			);
@@ -630,7 +625,6 @@
 				AEBA4B9618F212B0004E1FE0 /* LMBoard.m in Sources */,
 				AEBA4B8B18F210CF004E1FE0 /* LMHomeViewController.m in Sources */,
 				AE352EEF18F90A0E007972B9 /* LMRandom.m in Sources */,
-				AE352F0418FCFBB1007972B9 /* LMShiftOperation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

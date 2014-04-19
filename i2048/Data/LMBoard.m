@@ -10,7 +10,6 @@
 
 #import "LMBoardItem.h"
 #import "LMRandom.h"
-#import "LMShiftOperation.h"
 #import "LMShiftResult.h"
 
 @interface LMBoard ()
@@ -117,44 +116,44 @@
 
 - (BOOL)canShiftUp
 {
-    return [self canPerformShift:[LMShiftOperation shiftUp]];
+    return [self canPerformShiftUsingColumns:YES reverseIteration:NO];
 }
 
 - (BOOL)canShiftDown
 {
-    return [self canPerformShift:[LMShiftOperation shiftDown]];
+    return [self canPerformShiftUsingColumns:YES reverseIteration:YES];
 }
 
 - (BOOL)canShiftLeft
 {
-    return [self canPerformShift:[LMShiftOperation shiftLeft]];
+    return [self canPerformShiftUsingColumns:NO reverseIteration:NO];
 }
 
 - (BOOL)canShiftRight
 {
-    return [self canPerformShift:[LMShiftOperation shiftRight]];
+    return [self canPerformShiftUsingColumns:NO reverseIteration:YES];
 }
 
 #pragma mark Shift Actions
 
 - (LMShiftResult *)shiftUp
 {
-    return [self performShiftOperation:[LMShiftOperation shiftUp]];
+    return [self performShiftUsingColumns:YES reverseIteration:NO];
 }
 
 - (LMShiftResult *)shiftDown
 {
-    return [self performShiftOperation:[LMShiftOperation shiftDown]];
+    return [self performShiftUsingColumns:YES reverseIteration:YES];
 }
 
 - (LMShiftResult *)shiftLeft
 {
-    return [self performShiftOperation:[LMShiftOperation shiftLeft]];
+    return [self performShiftUsingColumns:NO reverseIteration:NO];
 }
 
 - (LMShiftResult *)shiftRight
 {
-    return [self performShiftOperation:[LMShiftOperation shiftRight]];
+    return [self performShiftUsingColumns:NO reverseIteration:YES];
 }
 
 #pragma mark - Private Utility
@@ -216,15 +215,15 @@
     return result;
 }
 
-- (BOOL)canPerformShift:(LMShiftOperation *)shift
+- (BOOL)canPerformShiftUsingColumns:(BOOL)useColumns reverseIteration:(BOOL)reverse
 {
-    NSUInteger count = shift.useColumnIndexes ? self.columnCount : self.rowCount;
+    NSUInteger count = useColumns ? self.columnCount : self.rowCount;
     
     for (NSUInteger i = 0; i < count; i++)
     {
-        NSIndexSet *subset = shift.useColumnIndexes ? [self indexSetForColumn:i] : [self indexSetForRow:i];
+        NSIndexSet *subset = useColumns ? [self indexSetForColumn:i] : [self indexSetForRow:i];
         
-        if ([self canShiftIndexes:subset reverse:shift.reverseIteration])
+        if ([self canShiftIndexes:subset reverse:reverse])
         {
             return YES;
         }
@@ -259,17 +258,17 @@
     return result;
 }
 
-- (LMShiftResult *)performShiftOperation:(LMShiftOperation *)shift
+- (LMShiftResult *)performShiftUsingColumns:(BOOL)useColumns reverseIteration:(BOOL)reverse
 {
     NSMutableArray *allMatches = [NSMutableArray array];
     
-    NSUInteger count = shift.useColumnIndexes ? self.columnCount : self.rowCount;
+    NSUInteger count = useColumns ? self.columnCount : self.rowCount;
     
     for (NSUInteger i = 0; i < count; i++)
     {
-        NSIndexSet *itemSet = shift.useColumnIndexes ? [self indexSetForColumn:i] : [self indexSetForRow:i];
+        NSIndexSet *itemSet = useColumns ? [self indexSetForColumn:i] : [self indexSetForRow:i];
         
-        NSArray *matches = [self consolidateIndexes:itemSet reverse:shift.reverseIteration];
+        NSArray *matches = [self consolidateIndexes:itemSet reverse:reverse];
         [allMatches addObjectsFromArray:matches];
     }
     
